@@ -5,7 +5,7 @@ export default function TarjetasBanner() {
     <section
       className="relative overflow-hidden py-24 px-4"
       style={{
-        background: "linear-gradient(160deg, #160e40 0%, #1c0f4c 50%, #211356 100%)",
+        background: "#eef2f9",
       }}
     >
       {/* Glow top */}
@@ -53,7 +53,7 @@ export default function TarjetasBanner() {
             Próximamente
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-black leading-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black leading-tight" style={{ color: "#0f0a2e" }}>
             Tu tarjeta{" "}
             <span
               style={{
@@ -67,7 +67,7 @@ export default function TarjetasBanner() {
             </span>
           </h2>
 
-          <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+          <p className="text-base leading-relaxed" style={{ color: "rgba(15,10,46,0.60)" }}>
             Tu propia tarjeta Visa para gestionar inversiones, cobrar rendimientos
             y pagar en cualquier lugar del mundo.
           </p>
@@ -88,7 +88,7 @@ export default function TarjetasBanner() {
                 >
                   ✓
                 </span>
-                <span className="text-sm" style={{ color: "rgba(255,255,255,0.75)" }}>{item}</span>
+                <span className="text-sm" style={{ color: "rgba(15,10,46,0.65)" }}>{item}</span>
               </li>
             ))}
           </ul>

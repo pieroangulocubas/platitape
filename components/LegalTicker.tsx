@@ -58,7 +58,7 @@ function MarqueeRow({
             }}
           >
             {item}
-            <span style={{ marginLeft: "36px", opacity: 0.2, color: "white" }}>·</span>
+            <span style={{ marginLeft: "36px", opacity: 0.25, color: "rgba(28,15,76,0.4)" }}>·</span>
           </span>
         ))}
       </div>
@@ -71,9 +71,9 @@ export function RespaldoLegalBand() {
   return (
     <div
       style={{
-        borderTop: "1px solid rgba(34,211,238,0.12)",
-        borderBottom: "1px solid rgba(34,211,238,0.12)",
-        background: "rgba(34,211,238,0.03)",
+        borderTop: "1px solid rgba(28,15,76,0.08)",
+        borderBottom: "1px solid rgba(28,15,76,0.08)",
+        background: "#ffffff",
         padding: "12px 0",
         overflow: "hidden",
       }}
@@ -94,17 +94,17 @@ export function RespaldoLegalBand() {
             fontWeight: 800,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
-            color: "#22d3ee",
+            color: "#1c0f4c",
             flexShrink: 0,
             paddingRight: "16px",
-            borderRight: "1px solid rgba(34,211,238,0.2)",
-            opacity: 0.85,
+            borderRight: "1px solid rgba(28,15,76,0.15)",
+            opacity: 0.7,
           }}
         >
           Respaldo<br />Legal
         </span>
         <div style={{ flex: 1, overflow: "hidden" }}>
-          <MarqueeRow items={PUBLIC_ENTITIES} color="rgba(34,211,238,0.75)" />
+          <MarqueeRow items={PUBLIC_ENTITIES} color="rgba(28,15,76,0.5)" />
         </div>
       </div>
     </div>
@@ -116,9 +116,9 @@ export function SociosEstrategicosBand() {
   return (
     <div
       style={{
-        borderTop: "1px solid rgba(139,92,246,0.12)",
-        borderBottom: "1px solid rgba(139,92,246,0.12)",
-        background: "rgba(139,92,246,0.03)",
+        borderTop: "1px solid rgba(28,15,76,0.08)",
+        borderBottom: "1px solid rgba(28,15,76,0.08)",
+        background: "#eef2f9",
         padding: "12px 0",
         overflow: "hidden",
       }}
@@ -137,17 +137,17 @@ export function SociosEstrategicosBand() {
             fontWeight: 800,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
-            color: "#a78bfa",
+            color: "#1c0f4c",
             flexShrink: 0,
             paddingRight: "16px",
-            borderRight: "1px solid rgba(139,92,246,0.2)",
-            opacity: 0.85,
+            borderRight: "1px solid rgba(28,15,76,0.15)",
+            opacity: 0.7,
           }}
         >
           Socios<br />Estratégicos
         </span>
         <div style={{ flex: 1, overflow: "hidden" }}>
-          <MarqueeRow items={PRIVATE_PARTNERS} reverse color="rgba(167,139,250,0.75)" />
+          <MarqueeRow items={PRIVATE_PARTNERS} reverse color="rgba(28,15,76,0.5)" />
         </div>
       </div>
     </div>

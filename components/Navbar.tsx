@@ -23,11 +23,10 @@ export default function Navbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled
-          ? "rgba(28,15,76,0.92)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.07)" : "none",
+        background: scrolled ? "rgba(248,251,255,0.98)" : "rgba(255,255,255,0.92)",
+        backdropFilter: "blur(20px)",
+        borderBottom: scrolled ? "1px solid rgba(12,18,55,0.10)" : "1px solid rgba(12,18,55,0.07)",
+        boxShadow: scrolled ? "0 1px 16px rgba(8,10,30,0.07)" : "none",
       }}
     >
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
@@ -50,13 +49,9 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className="text-sm font-medium transition-colors"
-              style={{ color: "rgba(255,255,255,0.65)" }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = "#6cdcff")
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color = "rgba(255,255,255,0.65)")
-              }
+              style={{ color: "rgba(15,10,46,0.60)" }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#1c0f4c")}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "rgba(15,10,46,0.60)")}
             >
               {link.label}
             </a>
@@ -80,16 +75,16 @@ export default function Navbar() {
           aria-label="Menú"
         >
           <span
-            className="block w-5 h-0.5 bg-white transition-transform duration-200"
-            style={{ transform: menuOpen ? "rotate(45deg) translateY(8px)" : "" }}
+            className="block w-5 h-0.5 transition-transform duration-200"
+            style={{ background: "#0f0a2e", transform: menuOpen ? "rotate(45deg) translateY(8px)" : "" }}
           />
           <span
-            className="block w-5 h-0.5 bg-white transition-opacity duration-200"
-            style={{ opacity: menuOpen ? 0 : 1 }}
+            className="block w-5 h-0.5 transition-opacity duration-200"
+            style={{ background: "#0f0a2e", opacity: menuOpen ? 0 : 1 }}
           />
           <span
-            className="block w-5 h-0.5 bg-white transition-transform duration-200"
-            style={{ transform: menuOpen ? "rotate(-45deg) translateY(-8px)" : "" }}
+            className="block w-5 h-0.5 transition-transform duration-200"
+            style={{ background: "#0f0a2e", transform: menuOpen ? "rotate(-45deg) translateY(-8px)" : "" }}
           />
         </button>
       </div>
@@ -98,14 +93,14 @@ export default function Navbar() {
       {menuOpen && (
         <div
           className="md:hidden px-5 pb-5 pt-2 flex flex-col gap-4"
-          style={{ background: "rgba(28,15,76,0.97)" }}
+          style={{ background: "rgba(248,251,255,0.99)", borderTop: "1px solid rgba(12,18,55,0.08)" }}
         >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               className="text-sm font-medium"
-              style={{ color: "rgba(255,255,255,0.75)" }}
+              style={{ color: "rgba(15,10,46,0.70)" }}
               onClick={() => setMenuOpen(false)}
             >
               {link.label}

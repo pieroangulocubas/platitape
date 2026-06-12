@@ -9,6 +9,12 @@
   --purple-light: #cc6ef0;
   --pink: #bc45e9;
   --green-wa: #25D366;
+
+  /* Text colors — WCAG AA compliant on white/eef2f9 backgrounds */
+  --text-primary: #0f0a2e;          /* headings, ~17:1 */
+  --text-secondary: rgba(15,10,46,0.70); /* body text, ~5.2:1 */
+  --text-muted: rgba(15,10,46,0.55);    /* labels, hints, ~3.8:1 (AA large text) */
+  --text-disabled: rgba(15,10,46,0.38); /* disabled only — not for body */
 }
 
 * {
@@ -20,16 +26,41 @@ html {
 }
 
 body {
-  background: var(--bg-primary);
-  color: white;
+  background: #eef2f9;
+  color: #080b1e;
   font-family: var(--font-nunito), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 
+/* ── Light section utilities ────────────────────────── */
+.section-light {
+  background: #eef2f9;
+  color: #080b1e;
+}
+
+.section-light-alt {
+  background: #ffffff;
+  color: #080b1e;
+}
+
+/* ── Light card ─────────────────────────────────────── */
+.light-card {
+  background: #ffffff;
+  border: 1px solid #d2dcea;
+  box-shadow: 0 1px 3px rgba(8,10,30,0.04), 0 4px 16px rgba(8,10,30,0.07);
+}
+
+/* ── Light section tags ──────────────────────────────── */
+.light-tag {
+  background: rgba(12,18,55,0.06);
+  border: 1px solid rgba(12,18,55,0.13);
+  color: #1c0f4c;
+}
+
 /* ── Scrollbar ──────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-card); }
-::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+::-webkit-scrollbar-track { background: #e3eaf5; }
+::-webkit-scrollbar-thumb { background: #a89ac8; border-radius: 3px; }
 
 /* ── Gradient text ──────────────────────────────────── */
 .gradient-text {
@@ -116,17 +147,69 @@ body {
 .glow-purple { box-shadow: 0 0 40px rgba(188, 69, 233, 0.3); }
 .glow-pink  { box-shadow: 0 0 40px rgba(188, 69, 233, 0.25); }
 
-/* ── Hero background ────────────────────────────────── */
+/* ── Hero background (legacy — section now uses inline styles) ── */
 .hero-bg {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(188, 69, 233, 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 80% 60%, rgba(108, 220, 255, 0.12) 0%, transparent 50%),
-    #1c0f4c;
+  background: #ffffff;
+}
+
+/* ── Fintech surface — cool blue-gray used across light sections ── */
+.fintech-surface {
+  background: #eef2f9;
+}
+
+/* ── Fintech card — crisp, professional ── */
+.fintech-card {
+  background: #ffffff;
+  border: 1px solid #d2dcea;
+  box-shadow: 0 1px 3px rgba(8,10,30,0.04), 0 6px 20px rgba(8,10,30,0.07);
+  border-radius: 12px;
+}
+
+/* ── Fintech stat badge ── */
+.fintech-stat-accent {
+  border-left: 3px solid;
+  border-image: linear-gradient(180deg, #6cdcff, #bc45e9) 1;
+}
+
+/* ── Light input — for light-themed panels (simulator, forms) ── */
+.form-input-light {
+  background: #ffffff;
+  border: 1.5px solid #d2dcea;
+  color: #080b1e;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+  width: 100%;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: inherit;
+}
+.form-input-light::placeholder { color: rgba(8,11,30,0.28); }
+.form-input-light:focus {
+  border-color: #bc45e9;
+  box-shadow: 0 0 0 3px rgba(188,69,233,0.10);
+}
+.form-input-light::-webkit-inner-spin-button,
+.form-input-light::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── Simulator border animation: izquierda (cyan) → derecha (magenta) ── */
+@keyframes border-sweep-ltr {
+  0%   { background-position: -100% 0; }
+  100% { background-position:  200% 0; }
+}
+.sim-border-ltr {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6cdcff 0%, #bc45e9 50%, #6cdcff 100%);
+  background-size: 200% 100%;
+  animation: border-sweep-ltr 2.8s ease-in-out infinite;
 }
 
 /* ── Section backgrounds ────────────────────────────── */
 .section-alt {
-  background: linear-gradient(180deg, #160e40 0%, #1c0f4c 100%);
+  background: #e3eaf5;
 }
 
 /* ── Input styles ───────────────────────────────────── */
@@ -308,6 +391,24 @@ body {
     transition: none;
   }
 }
+
+/* ── Wave divider ───────────────────────────────────── */
+.wave-divider {
+  position: relative;
+  z-index: 2;
+  line-height: 0;
+  margin-bottom: -1px;
+}
+
+.wave-divider svg {
+  display: block;
+  width: 100%;
+}
+
+/* ── Floating hero cards ────────────────────────────── */
+.float-a { animation: float-card 4s   ease-in-out infinite; }
+.float-b { animation: float-card 5.2s ease-in-out infinite 0.9s; }
+.float-c { animation: float-card 4.7s ease-in-out infinite 1.8s; }
 
 /* ── Simulator card float ───────────────────────────── */
 @keyframes float-card {

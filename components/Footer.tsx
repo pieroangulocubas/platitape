@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer
       className="relative pt-16 pb-10 px-4 border-t overflow-hidden"
-      style={{ borderColor: "rgba(255,255,255,0.07)", background: "#160e40" }}
+      style={{ borderColor: "rgba(28,15,76,0.10)", background: "#e3eaf5" }}
     >
       {/* Llama decorativa fondo */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -19,8 +19,8 @@ export default function Footer() {
           right: 0,
           height: "110%",
           width: "auto",
-          filter: "brightness(0) invert(1)",
-          opacity: 0.04,
+          filter: "brightness(0) saturate(100%) invert(7%) sepia(72%) saturate(1700%) hue-rotate(245deg)",
+          opacity: 0.05,
           transform: "translateX(20%)",
           pointerEvents: "none",
           userSelect: "none",
@@ -42,15 +42,15 @@ export default function Footer() {
           </a>
 
           {/* Links */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
-            <a href="#como-funciona" className="hover:text-white transition-colors">¿Cómo funciona?</a>
-            <a href="#beneficios" className="hover:text-white transition-colors">Beneficios</a>
-            <a href="#simulador" className="hover:text-white transition-colors">Simulador</a>
-            <a href="#registro" className="hover:text-white transition-colors">Registro</a>
+          <div className="flex flex-wrap justify-center gap-6 text-sm" style={{ color: "rgba(15,10,46,0.50)" }}>
+            <a href="#como-funciona" style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">¿Cómo funciona?</a>
+            <a href="#beneficios"    style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">Beneficios</a>
+            <a href="#simulador"     style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">Simulador</a>
+            <a href="#registro"      style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">Registro</a>
           </div>
 
           {/* Legal */}
-          <p className="text-xs text-center md:text-right" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs text-center md:text-right" style={{ color: "rgba(15,10,46,0.40)" }}>
             © {new Date().getFullYear()} Platita.pe
             <br />Todos los derechos reservados
           </p>
@@ -58,7 +58,7 @@ export default function Footer() {
 
         <div
           className="mt-10 pt-6 border-t text-center text-xs"
-          style={{ borderColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.22)" }}
+          style={{ borderColor: "rgba(28,15,76,0.10)", color: "rgba(15,10,46,0.38)" }}
         >
           Las inversiones están sujetas a riesgo. La rentabilidad pasada no garantiza resultados futuros.
           Platita.pe opera bajo la normativa vigente de la SBS y la SMV del Perú.
