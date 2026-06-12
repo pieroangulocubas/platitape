@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { WA_CONTACT_URL } from "@/lib/config";
 
 const faqs = [
   {
@@ -13,8 +14,8 @@ const faqs = [
     cat: "Riesgos",
   },
   {
-    q: "¿El 22% anual está garantizado?",
-    a: "El 22% es la rentabilidad estimada máxima basada en el historial de nuestros proyectos. La tasa real varía entre 10% y 22% según el proyecto y el plazo elegido. Como toda inversión, está sujeta a riesgos del mercado inmobiliario. Nunca prometemos rendimientos garantizados, pero sí transparencia total en cada paso.",
+    q: "¿El 18% anual está garantizado?",
+    a: "El 18% es la rentabilidad estimada máxima basada en el historial de nuestros proyectos. La tasa real varía entre 10% y 18% según el proyecto y el plazo elegido. Como toda inversión, está sujeta a riesgos del mercado inmobiliario. Nunca prometemos rendimientos garantizados, pero sí transparencia total en cada paso.",
     cat: "Rentabilidad",
   },
   {
@@ -29,7 +30,7 @@ const faqs = [
   },
   {
     q: "¿Cuál es el monto mínimo y máximo para invertir?",
-    a: "El monto mínimo es S/ 500 por proyecto. No existe un límite máximo definido; sin embargo, los proyectos tienen un cupo total de financiamiento y funcionan por orden de llegada. Los primeros en reservar tienen prioridad.",
+    a: "El monto mínimo es S/ 10,000 por proyecto. No existe un límite máximo definido; sin embargo, los proyectos tienen un cupo total de financiamiento y funcionan por orden de llegada. Los primeros en reservar tienen prioridad.",
     cat: "Inversión",
   },
   {
@@ -54,42 +55,26 @@ const faqs = [
   },
 ];
 
-const catColors: Record<string, string> = {
-  Legal: "#22d3ee",
-  Riesgos: "#ec4899",
-  Rentabilidad: "#a78bfa",
-  Liquidez: "#22d3ee",
-  Inversión: "#a78bfa",
-  Costos: "#22d3ee",
-  Proyectos: "#a78bfa",
-  Lanzamiento: "#ec4899",
-  General: "#22d3ee",
-};
-
 export default function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-24 px-4 section-alt">
+    <section className="py-24 px-4" style={{ background: "#eef2f9" }}>
       <div className="max-w-3xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-14">
           <span
             className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-            style={{
-              background: "rgba(34,211,238,0.1)",
-              border: "1px solid rgba(34,211,238,0.25)",
-              color: "#22d3ee",
-            }}
+            style={{ background: "rgba(28,15,76,0.07)", border: "1px solid rgba(28,15,76,0.14)", color: "#1c0f4c" }}
           >
             Preguntas frecuentes
           </span>
-          <h2 className="text-4xl md:text-5xl font-black text-white mt-5 mb-4">
+          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#0f0a2e" }}>
             Resolvemos tus{" "}
             <span className="gradient-text">dudas</span>
           </h2>
-          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(15,10,46,0.5)" }}>
             Todo lo que necesitas saber antes de dar el primer paso
           </p>
         </div>
@@ -98,16 +83,16 @@ export default function FAQSection() {
         <div className="flex flex-col gap-3">
           {faqs.map((faq, i) => {
             const isOpen = open === i;
-            const color = catColors[faq.cat] ?? "#22d3ee";
             return (
               <div
                 key={i}
                 className="rounded-2xl overflow-hidden transition-all duration-300"
                 style={{
-                  background: isOpen ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.03)",
+                  background: isOpen ? "#ffffff" : "#ffffff",
                   border: isOpen
-                    ? `1px solid ${color}33`
-                    : "1px solid rgba(255,255,255,0.07)",
+                    ? "1px solid rgba(28,15,76,0.2)"
+                    : "1px solid #d2dcea",
+                  boxShadow: isOpen ? "0 4px 20px rgba(28,15,76,0.08)" : "none",
                 }}
               >
                 <button
@@ -118,11 +103,11 @@ export default function FAQSection() {
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     {/* Category chip */}
                     <span
-                      className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0 hidden sm:inline"
+                      className="text-xs font-bold px-2 py-0.5 rounded-full shrink-0 hidden sm:inline"
                       style={{
-                        background: `${color}18`,
-                        color,
-                        border: `1px solid ${color}30`,
+                        background: "rgba(28,15,76,0.06)",
+                        color: "#1c0f4c",
+                        border: "1px solid rgba(28,15,76,0.12)",
                         fontSize: "0.6rem",
                         letterSpacing: "0.06em",
                       }}
@@ -130,8 +115,8 @@ export default function FAQSection() {
                       {faq.cat}
                     </span>
                     <span
-                      className="text-white font-semibold text-sm leading-snug"
-                      style={{ color: isOpen ? "white" : "rgba(255,255,255,0.85)" }}
+                      className="font-semibold text-sm leading-snug"
+                      style={{ color: isOpen ? "#0f0a2e" : "rgba(15,10,46,0.8)" }}
                     >
                       {faq.q}
                     </span>
@@ -142,7 +127,7 @@ export default function FAQSection() {
                     height="18"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke={color}
+                    stroke={isOpen ? "#1c0f4c" : "rgba(15,10,46,0.35)"}
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -166,7 +151,7 @@ export default function FAQSection() {
                 >
                   <p
                     className="text-sm leading-relaxed px-5 pb-5"
-                    style={{ color: "rgba(255,255,255,0.55)" }}
+                    style={{ color: "rgba(15,10,46,0.6)" }}
                   >
                     {faq.a}
                   </p>
@@ -178,11 +163,11 @@ export default function FAQSection() {
 
         {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
+          <p className="text-sm mb-4" style={{ color: "rgba(15,10,46,0.45)" }}>
             ¿Tienes más preguntas? Escríbenos directamente.
           </p>
           <a
-            href="https://wa.me/51999999999"
+            href={WA_CONTACT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-gradient inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-sm"

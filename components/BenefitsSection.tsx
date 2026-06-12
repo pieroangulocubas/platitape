@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 
-/* ── SVG icons inline — sin emojis ──────────────────── */
 const IconTrendingUp = ({ c }: { c: string }) => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
@@ -50,90 +49,89 @@ interface Benefit {
 
 const benefits: Benefit[] = [
   {
-    icon: <IconTrendingUp c="#22d3ee" />,
+    icon: <IconTrendingUp c="#1c0f4c" />,
     title: "Alta rentabilidad",
-    description: "Obtén del 10% al 22% anual, muy por encima de un depósito bancario tradicional o de la inflación.",
-    accent: "#22d3ee",
-    tag: "Hasta 22% anual",
+    description: "Obtén del 10% al 18% anual, muy por encima de un depósito bancario tradicional o de la inflación.",
+    accent: "#1c0f4c",
+    tag: "Hasta 18% anual",
   },
   {
-    icon: <IconCoins c="#8b5cf6" />,
+    icon: <IconCoins c="#bc45e9" />,
     title: "Inversión mínima accesible",
-    description: "Comienza desde S/500. No necesitas ser millonario para invertir en bienes raíces premium del Perú.",
-    accent: "#8b5cf6",
-    tag: "Desde S/500",
+    description: "Comienza desde S/10,000. No necesitas comprar una propiedad entera para invertir en bienes raíces premium del Perú.",
+    accent: "#bc45e9",
+    tag: "Desde S/10,000",
   },
   {
-    icon: <IconShieldCheck c="#22d3ee" />,
+    icon: <IconShieldCheck c="#1c0f4c" />,
     title: "Proyectos verificados",
     description: "Cada proyecto pasa por un riguroso proceso de due diligence legal, financiero e inmobiliario antes de publicarse.",
-    accent: "#22d3ee",
+    accent: "#1c0f4c",
     tag: "Due diligence",
   },
   {
-    icon: <IconLock c="#ec4899" />,
+    icon: <IconLock c="#6cdcff" />,
     title: "100% online y seguro",
     description: "Gestiona todo desde tu celular o computadora. Plataforma segura con cifrado bancario y autenticación de dos factores.",
-    accent: "#ec4899",
+    accent: "#6cdcff",
     tag: "Fintech seguro",
   },
   {
-    icon: <IconBarChart c="#8b5cf6" />,
+    icon: <IconBarChart c="#bc45e9" />,
     title: "Transparencia total",
     description: "Accede a reportes detallados de cada proyecto, actualizaciones en tiempo real y estados financieros claros.",
-    accent: "#8b5cf6",
+    accent: "#bc45e9",
     tag: "Reportes en tiempo real",
   },
   {
-    icon: <IconZap c="#22d3ee" />,
+    icon: <IconZap c="#1c0f4c" />,
     title: "Sin complicaciones",
     description: "Olvídate de trámites, notarías y dolores de cabeza. Nosotros manejamos todo el proceso inmobiliario por ti.",
-    accent: "#22d3ee",
+    accent: "#1c0f4c",
     tag: "Proceso simplificado",
   },
 ];
 
-function accentRgb(hex: string) {
-  if (hex === "#22d3ee") return "34,211,238";
-  if (hex === "#8b5cf6") return "139,92,246";
-  return "236,72,153";
-}
-
 export default function BenefitsSection() {
   return (
-    <section id="beneficios" className="py-24 px-4" style={{ background: "#08061a" }}>
+    <section id="beneficios" className="py-20 px-4" style={{ background: "#eef2f9" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-14">
           <span
-            className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-            style={{ background: "rgba(34,211,238,0.1)", border: "1px solid rgba(34,211,238,0.25)", color: "#22d3ee" }}
+            className="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-md"
+            style={{ background: "rgba(12,18,55,0.06)", border: "1px solid rgba(12,18,55,0.12)", color: "#1c0f4c" }}
           >
             Por qué Platita
           </span>
-          <h2 className="text-4xl md:text-5xl font-black text-white mt-5 mb-4">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#080b1e" }}>
             La forma más inteligente de{" "}
             <span className="gradient-text">invertir en el Perú</span>
           </h2>
-          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.55)" }}>
+          <p className="text-base max-w-xl mx-auto" style={{ color: "rgba(8,11,30,0.50)" }}>
             Todo lo que necesitas para hacer crecer tu patrimonio, en una sola plataforma
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {benefits.map((b, i) => (
             <div
               key={i}
-              className="glass-card rounded-3xl p-7 group hover:-translate-y-2 transition-all duration-300 flex flex-col gap-4"
+              className="rounded-xl p-6 group hover:-translate-y-1 transition-all duration-300 flex flex-col gap-4"
+              style={{
+                background: "#ffffff",
+                border: "1px solid #d2dcea",
+                boxShadow: "0 1px 3px rgba(8,10,30,0.04), 0 4px 16px rgba(8,10,30,0.07)",
+              }}
             >
               {/* Tag */}
               <span
-                className="self-start text-xs font-bold px-3 py-1 rounded-full"
+                className="self-start text-xs font-bold px-2.5 py-1 rounded-md"
                 style={{
-                  background: `rgba(${accentRgb(b.accent)},0.12)`,
-                  color: b.accent,
-                  border: `1px solid ${b.accent}30`,
+                  background: "rgba(12,18,55,0.05)",
+                  color: "#1c0f4c",
+                  border: "1px solid rgba(12,18,55,0.10)",
                 }}
               >
                 {b.tag}
@@ -141,10 +139,10 @@ export default function BenefitsSection() {
 
               {/* Icon box */}
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center"
+                className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{
-                  background: `rgba(${accentRgb(b.accent)},0.1)`,
-                  border: `1px solid rgba(${accentRgb(b.accent)},0.2)`,
+                  background: "rgba(12,18,55,0.05)",
+                  border: "1px solid rgba(12,18,55,0.09)",
                 }}
               >
                 {b.icon}
@@ -152,16 +150,16 @@ export default function BenefitsSection() {
 
               {/* Content */}
               <div>
-                <h3 className="text-white font-bold text-xl mb-2">{b.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <h3 className="font-bold text-lg mb-1.5" style={{ color: "#080b1e" }}>{b.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "rgba(8,11,30,0.50)" }}>
                   {b.description}
                 </p>
               </div>
 
               {/* Accent line */}
               <div
-                className="h-0.5 w-12 rounded-full mt-auto opacity-50 group-hover:opacity-100 group-hover:w-20 transition-all duration-500"
-                style={{ background: b.accent }}
+                className="h-0.5 w-10 rounded-full mt-auto opacity-35 group-hover:opacity-100 group-hover:w-16 transition-all duration-500"
+                style={{ background: "linear-gradient(90deg, #6cdcff, #bc45e9)" }}
               />
             </div>
           ))}

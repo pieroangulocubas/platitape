@@ -17,7 +17,7 @@ const USERS = [
 const ACTIONS = [
   "se unió a la lista de espera",
   "reservó su lugar",
-  "quiere invertir desde S/500",
+  "quiere invertir desde S/10,000",
   "acaba de registrarse",
   "guardó su lugar prioritario",
 ];

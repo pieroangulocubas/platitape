@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 
-const ANNUAL_RATE = 0.22;
-const MIN_AMOUNT  = 500;
-const MAX_AMOUNT  = 50000;
+const ANNUAL_RATE = 0.18;
+const MIN_AMOUNT  = 10000;
+const MAX_AMOUNT  = 100000;
 
 const periods = [
   { months: 3,  label: "3 meses",  available: false },
@@ -13,7 +13,6 @@ const periods = [
   { months: 24, label: "24 meses", available: false },
 ];
 
-/** Formateador determinista — evita hydration mismatch por locale del servidor */
 function fmt(n: number) {
   return Math.round(n)
     .toString()
@@ -24,70 +23,78 @@ function clampAmount(v: number) {
   return Math.min(MAX_AMOUNT, Math.max(MIN_AMOUNT, v));
 }
 
+// Light input style
+const inputStyle: React.CSSProperties = {
+  background: "#eef2f9",
+  border: "1px solid #dddaf5",
+  color: "#0f0a2e",
+  borderRadius: "0.75rem",
+  padding: "0.875rem 1rem",
+  width: "100%",
+  fontSize: "1.2rem",
+  fontWeight: 700,
+  transition: "border-color 0.2s, box-shadow 0.2s",
+  outline: "none",
+  paddingLeft: "3.75rem",
+};
+
 export default function SimuladorSection() {
-  const [amount, setAmount]     = useState<number>(1000);
-  const [rawInput, setRawInput] = useState<string>("1000"); // texto libre mientras escribe
+  const [amount, setAmount]     = useState<number>(10000);
+  const [rawInput, setRawInput] = useState<string>("10000");
   const [months, setMonths]     = useState<number>(12);
 
   const earnings  = amount * ANNUAL_RATE * (months / 12);
   const total     = amount + earnings;
   const roiPct    = ((earnings / amount) * 100).toFixed(1);
   const barWidth  = Math.min(100, (months / 24) * 100);
-  const amtPct    = ((amount - MIN_AMOUNT) / (MAX_AMOUNT - MIN_AMOUNT)) * 100;
 
   return (
     <section
       id="simulador"
       className="py-28 px-4 relative overflow-hidden"
-      style={{
-        background: "linear-gradient(160deg, #050312 0%, #0d0726 45%, #060418 100%)",
-      }}
+      style={{ background: "#eef2f9" }}
     >
-      {/* Glow orbs de fondo */}
-      <div style={{ position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)", width: "600px", height: "400px", background: "radial-gradient(ellipse, rgba(34,211,238,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: "-60px", right: "10%", width: "400px", height: "300px", background: "radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-      {/* Decorative "22%" flotante */}
+      {/* Decorative "18%" flotante */}
       <div
         style={{
           position: "absolute", left: "-2%", top: "50%", transform: "translateY(-50%)",
           fontSize: "22vw", fontWeight: 900, lineHeight: 1,
           color: "transparent",
-          WebkitTextStroke: "1px rgba(34,211,238,0.06)",
+          WebkitTextStroke: "1px rgba(28,15,76,0.04)",
           userSelect: "none", pointerEvents: "none", letterSpacing: "-0.05em",
         }}
       >
-        22%
+        18%
       </div>
 
-      {/* Llama */}
+      {/* Llama decorativa */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/llama-bg.png" alt="" aria-hidden="true" style={{ position: "absolute", right: "-6%", bottom: "-5%", height: "90%", width: "auto", maxWidth: "45%", objectFit: "contain", objectPosition: "right bottom", opacity: 0.04, pointerEvents: "none", userSelect: "none", filter: "grayscale(100%) brightness(3)" }} />
+      <img src="/llama-bg.png" alt="" aria-hidden="true" style={{ position: "absolute", right: "-6%", bottom: "-5%", height: "90%", width: "auto", maxWidth: "45%", objectFit: "contain", objectPosition: "right bottom", opacity: 0.04, pointerEvents: "none", userSelect: "none", filter: "grayscale(100%) brightness(0)" }} />
 
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-14">
           <span
             className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-            style={{ background: "rgba(34,211,238,0.1)", border: "1px solid rgba(34,211,238,0.3)", color: "#22d3ee" }}
+            style={{ background: "rgba(28,15,76,0.07)", border: "1px solid rgba(28,15,76,0.14)", color: "#1c0f4c" }}
           >
             Simulador de inversión
           </span>
-          <h2 className="text-5xl md:text-6xl font-black text-white mt-5 mb-4 leading-tight">
+          <h2 className="text-5xl md:text-6xl font-black mt-5 mb-4 leading-tight" style={{ color: "#0f0a2e" }}>
             ¿Cuánto puede crecer{" "}
             <span className="gradient-text">tu platita?</span>
           </h2>
-          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.5)" }}>
-            Mueve el slider, escribe tu monto y mira tu retorno en tiempo real
+          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(15,10,46,0.5)" }}>
+            Escribe tu monto y mira tu retorno en tiempo real
           </p>
         </div>
 
         <div
           className="rounded-3xl p-8 md:p-12"
           style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(34,211,238,0.18)",
-            boxShadow: "0 0 80px rgba(34,211,238,0.07), 0 0 0 1px rgba(34,211,238,0.06) inset",
+            background: "#ffffff",
+            border: "1px solid #d2dcea",
+            boxShadow: "0 4px 40px rgba(28,15,76,0.08)",
           }}
         >
           <div className="grid md:grid-cols-2 gap-10 items-start">
@@ -97,17 +104,17 @@ export default function SimuladorSection() {
               {/* Amount */}
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.6)" }}>
+                  <label className="text-sm font-semibold" style={{ color: "rgba(15,10,46,0.6)" }}>
                     Monto a invertir
                   </label>
-                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-                    mín. S/500
+                  <span className="text-xs" style={{ color: "rgba(15,10,46,0.35)" }}>
+                    mín. S/10,000
                   </span>
                 </div>
                 <div className="relative">
                   <span
                     className="absolute top-1/2 -translate-y-1/2 font-bold text-xl select-none pointer-events-none"
-                    style={{ color: "#22d3ee", left: "1rem" }}
+                    style={{ color: "#bc45e9", left: "1rem" }}
                   >
                     S/
                   </span>
@@ -118,7 +125,6 @@ export default function SimuladorSection() {
                     max={MAX_AMOUNT}
                     step={1}
                     onChange={(e) => {
-                      // Permite escribir libremente sin cortar el texto
                       setRawInput(e.target.value);
                       const n = Number(e.target.value);
                       if (!isNaN(n) && n >= MIN_AMOUNT) {
@@ -126,52 +132,28 @@ export default function SimuladorSection() {
                       }
                     }}
                     onBlur={() => {
-                      // Al salir del campo, clampea y sincroniza el texto
                       const clamped = clampAmount(Number(rawInput) || MIN_AMOUNT);
                       setAmount(clamped);
                       setRawInput(String(clamped));
                     }}
-                    className="form-input text-xl font-bold"
-                    style={{ paddingLeft: "3.75rem" }}
-                  />
-                </div>
-
-                {/* Amount range slider — step 1 para deslizamiento suave */}
-                <div className="mt-3">
-                  <input
-                    type="range"
-                    min={MIN_AMOUNT}
-                    max={MAX_AMOUNT}
-                    step={1}
-                    value={amount}
-                    onChange={(e) => {
-                      const n = Number(e.target.value);
-                      setAmount(n);
-                      setRawInput(String(n));
-                    }}
-                    className="w-full"
-                    style={{
-                      accentColor: "#22d3ee",
-                      height: "4px",
-                      cursor: "pointer",
-                    }}
+                    style={inputStyle}
                   />
                 </div>
 
                 {/* Quick amount chips */}
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {[500, 1000, 5000, 10000].map((v) => (
+                  {[10000, 25000, 50000, 100000].map((v) => (
                     <button
                       key={v}
                       onClick={() => { setAmount(v); setRawInput(String(v)); }}
-                      className="px-3 py-1 rounded-lg text-xs font-semibold transition-all"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                       style={{
-                        background: amount === v ? "rgba(34,211,238,0.2)" : "rgba(255,255,255,0.06)",
-                        border: amount === v ? "1px solid rgba(34,211,238,0.5)" : "1px solid rgba(255,255,255,0.1)",
-                        color: amount === v ? "#22d3ee" : "rgba(255,255,255,0.5)",
+                        background: amount === v ? "rgba(188,69,233,0.1)" : "#eef2f9",
+                        border: amount === v ? "1px solid rgba(188,69,233,0.4)" : "1px solid #d2dcea",
+                        color: amount === v ? "#bc45e9" : "rgba(15,10,46,0.5)",
                       }}
                     >
-                      S/{v.toLocaleString()}
+                      S/{v >= 1000 ? `${v / 1000}K` : v}
                     </button>
                   ))}
                 </div>
@@ -179,7 +161,7 @@ export default function SimuladorSection() {
 
               {/* Period */}
               <div>
-                <label className="text-sm font-semibold mb-3 block" style={{ color: "rgba(255,255,255,0.6)" }}>
+                <label className="text-sm font-semibold mb-3 block" style={{ color: "rgba(15,10,46,0.6)" }}>
                   Período de inversión
                 </label>
                 <div className="grid grid-cols-5 gap-2">
@@ -191,31 +173,29 @@ export default function SimuladorSection() {
                         style={{
                           background: p.available
                             ? months === p.months
-                              ? "linear-gradient(135deg,#22d3ee,#8b5cf6)"
-                              : "rgba(255,255,255,0.06)"
-                            : "rgba(255,255,255,0.03)",
+                              ? "linear-gradient(135deg,#6cdcff,#bc45e9)"
+                              : "#eef2f9"
+                            : "#e8edf6",
                           border: p.available
                             ? months === p.months
                               ? "none"
-                              : "1px solid rgba(255,255,255,0.1)"
-                            : "1px solid rgba(255,255,255,0.05)",
+                              : "1px solid #d2dcea"
+                            : "1px solid #d2dcea",
                           color: p.available
-                            ? months === p.months ? "white" : "rgba(255,255,255,0.5)"
-                            : "rgba(255,255,255,0.2)",
+                            ? months === p.months ? "white" : "rgba(15,10,46,0.5)"
+                            : "rgba(15,10,46,0.25)",
                           boxShadow: p.available && months === p.months
-                            ? "0 4px 20px rgba(34,211,238,0.3)"
+                            ? "0 4px 20px rgba(188,69,233,0.3)"
                             : "none",
                           cursor: p.available ? "pointer" : "default",
-                          filter: p.available ? "none" : "blur(0.4px)",
                         }}
                       >
                         {p.label}
                       </button>
-                      {/* Lock overlay for unavailable periods */}
                       {!p.available && (
                         <span
                           className="absolute top-0.5 right-1 text-xs leading-none select-none pointer-events-none"
-                          style={{ opacity: 0.45 }}
+                          style={{ opacity: 0.35 }}
                           title="Disponible pronto"
                         >
                           🔒
@@ -226,12 +206,12 @@ export default function SimuladorSection() {
                 </div>
 
                 {/* Progress bar */}
-                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                <div className="mt-4 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(28,15,76,0.08)" }}>
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
                       width: `${barWidth}%`,
-                      background: "linear-gradient(90deg,#22d3ee,#8b5cf6)",
+                      background: "linear-gradient(90deg,#6cdcff,#bc45e9)",
                     }}
                   />
                 </div>
@@ -240,17 +220,17 @@ export default function SimuladorSection() {
               {/* Rate note */}
               <div
                 className="flex items-center gap-3 p-4 rounded-2xl"
-                style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)" }}
+                style={{ background: "rgba(28,15,76,0.04)", border: "1px solid rgba(28,15,76,0.1)" }}
               >
-                <div className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(139,92,246,0.2)" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(28,15,76,0.07)" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="11" width="18" height="11" rx="2" />
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold">Tasa estimada: 22% anual</p>
-                  <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  <p className="text-sm font-semibold" style={{ color: "#0f0a2e" }}>Tasa estimada: 18% anual</p>
+                  <p className="text-xs" style={{ color: "rgba(15,10,46,0.45)" }}>
                     Basado en rentabilidad histórica de nuestros proyectos
                   </p>
                 </div>
@@ -262,30 +242,26 @@ export default function SimuladorSection() {
               {/* Initial */}
               <div
                 className="rounded-2xl p-5"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
+                style={{ background: "#eef2f9", border: "1px solid #d2dcea" }}
               >
-                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "rgba(15,10,46,0.4)" }}>
                   Tu inversión inicial
                 </p>
-                <p className="text-3xl font-black text-white">S/ {fmt(amount)}</p>
+                <p className="text-3xl font-black" style={{ color: "#0f0a2e" }}>S/ {fmt(amount)}</p>
               </div>
 
               {/* Earnings */}
               <div
                 className="rounded-2xl p-5 relative overflow-hidden"
-                style={{ background: "rgba(34,211,238,0.08)", border: "1px solid rgba(34,211,238,0.25)" }}
+                style={{ background: "rgba(108,220,255,0.08)", border: "1px solid rgba(108,220,255,0.3)" }}
               >
-                <div
-                  className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-20"
-                  style={{ background: "#22d3ee" }}
-                />
-                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "#22d3ee" }}>
+                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "#0097b2" }}>
                   Ganancia estimada
                 </p>
-                <p className="text-4xl font-black" style={{ color: "#22d3ee" }}>
+                <p className="text-4xl font-black" style={{ color: "#0097b2" }}>
                   +S/ {fmt(earnings)}
                 </p>
-                <p className="text-sm mt-1" style={{ color: "rgba(34,211,238,0.7)" }}>
+                <p className="text-sm mt-1" style={{ color: "rgba(0,151,178,0.7)" }}>
                   {roiPct}% en {months} meses
                 </p>
               </div>
@@ -294,19 +270,15 @@ export default function SimuladorSection() {
               <div
                 className="rounded-2xl p-5 relative overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.1) 100%)",
-                  border: "1px solid rgba(139,92,246,0.3)",
+                  background: "linear-gradient(135deg, #2d1a6e 0%, #1c0f4c 100%)",
+                  border: "none",
                 }}
               >
-                <div
-                  className="absolute bottom-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20"
-                  style={{ background: "#8b5cf6" }}
-                />
-                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "rgba(167,139,250,0.8)" }}>
+                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "rgba(255,255,255,0.55)" }}>
                   Total al final del período
                 </p>
                 <p className="font-black text-white" style={{ fontSize: "clamp(2.2rem,5vw,3.5rem)", lineHeight: 1.1 }}>S/ {fmt(total)}</p>
-                <p className="text-sm mt-2" style={{ color: "rgba(167,139,250,0.65)" }}>
+                <p className="text-sm mt-2" style={{ color: "rgba(255,255,255,0.5)" }}>
                   Disponible al vencer los {months} meses
                 </p>
               </div>
@@ -318,8 +290,8 @@ export default function SimuladorSection() {
                 <span>Quiero invertir ahora</span>
               </a>
 
-              <p className="text-xs text-center" style={{ color: "rgba(255,255,255,0.25)" }}>
-                *Proyección al 22% anual. Las inversiones están sujetas a riesgo.
+              <p className="text-xs text-center" style={{ color: "rgba(15,10,46,0.3)" }}>
+                *Proyección al 18% anual. Las inversiones están sujetas a riesgo.
               </p>
             </div>
           </div>

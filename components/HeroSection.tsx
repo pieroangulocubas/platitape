@@ -1,10 +1,12 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import ToastNotifications from "./ToastNotifications";
+import { WA_CHANNEL_URL } from "@/lib/config";
 
-const ANNUAL_RATE = 0.22;
-const MIN_AMOUNT  = 500;
-const MAX_AMOUNT  = 50000;
+const ANNUAL_RATE = 0.18;
+const MIN_AMOUNT  = 10000;
+const MAX_AMOUNT  = 100000;
 
 const PERIODS = [
   { months: 3,  label: "3m",  available: false },
@@ -18,50 +20,25 @@ function fmt(n: number) {
   return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ";
-const WA_CHANNEL_URL   = "https://whatsapp.com/channel/platitape";
-
-// Alturas precalculadas para evitar hydration mismatch (Math.sin es determinista pero
-// puede diferir en precisión entre Node y el browser en algunos entornos)
-const WAVEFORM_HEIGHTS = Array.from({ length: 40 }, (_, i) =>
-  Number((8 + Math.abs(Math.sin(i * 0.7) * 18 + Math.sin(i * 1.4 + 1) * 10)).toFixed(2))
-);
-
 export default function HeroSection() {
-  const [videoActive, setVideoActive] = useState(false);
-  const [showSim, setShowSim]         = useState(false);
-  const [amount, setAmount]           = useState(5000);
-  const [rawInput, setRawInput]       = useState("5000");
-  const [months, setMonths]           = useState(12);
+  const [showSim, setShowSim] = useState(false);
+  const [amount, setAmount]          = useState(10000);
+  const [rawInput, setRawInput]      = useState("10000");
+  const [months, setMonths]          = useState(12);
 
-  const gridRef     = useRef<HTMLDivElement>(null);
-  const orbPurple   = useRef<HTMLDivElement>(null);
-  const orbCyan     = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
-  const llamaRef    = useRef<HTMLImageElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let raf: number;
     const onScroll = () => {
       raf = requestAnimationFrame(() => {
         const y = window.scrollY;
-        if (gridRef.current)
-          gridRef.current.style.transform = `translateY(${y * 0.12}px)`;
-        if (orbPurple.current)
-          orbPurple.current.style.transform = `translateY(${y * 0.22}px)`;
-        if (orbCyan.current)
-          orbCyan.current.style.transform = `translateY(${y * -0.14}px)`;
-        if (headlineRef.current)
-          headlineRef.current.style.transform = `translateY(${y * 0.06}px)`;
-        if (llamaRef.current)
-          llamaRef.current.style.transform = `translateY(${y * 0.18}px) translateX(18%)`;
+        if (imageRef.current)
+          imageRef.current.style.transform = `translateY(${y * 0.08}px)`;
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, []);
 
   const earnings = amount * ANNUAL_RATE * (months / 12);
@@ -70,164 +47,279 @@ export default function HeroSection() {
 
   return (
     <>
-    <section className="hero-bg relative min-h-screen flex flex-col items-center justify-center px-4 pt-20 pb-16 overflow-hidden">
+    <section
+      className="relative flex flex-col justify-center overflow-hidden"
+      style={{
+        background: "linear-gradient(118deg, #ffffff 0%, #ffffff 38%, #f5f3ff 68%, #ede8fc 100%)",
+        minHeight: "92vh",
+      }}
+    >
+      {/* ── Background ── */}
 
-      {/* Background grid — parallax lento */}
+      {/* Dot grid — full width, subtle */}
       <div
-        ref={gridRef}
-        className="absolute inset-0 opacity-10 will-change-transform"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(188,69,233,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(188,69,233,0.3) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
+          backgroundImage: "radial-gradient(circle, rgba(28,15,76,0.048) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+      {/* Glow — right-bottom, behind llama */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          right: "0%",
+          bottom: "0%",
+          width: "55%",
+          height: "75%",
+          background: "radial-gradient(ellipse 65% 70% at 65% 90%, rgba(188,69,233,0.16) 0%, rgba(108,180,255,0.10) 55%, transparent 80%)",
+          filter: "blur(32px)",
+        }}
+      />
+      {/* Glow — top center-right accent */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          right: "15%",
+          top: "5%",
+          width: "30%",
+          height: "40%",
+          background: "radial-gradient(ellipse, rgba(108,180,255,0.10) 0%, transparent 70%)",
+          filter: "blur(24px)",
+        }}
+      />
+      {/* Left brand accent bar */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: 0, top: 0,
+          width: "3px",
+          height: "55%",
+          background: "linear-gradient(180deg, #6cdcff 0%, #bc45e9 60%, transparent 100%)",
+          opacity: 0.55,
+        }}
+      />
+      {/* Top-right accent line */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          right: 0, top: 0,
+          width: "45%",
+          height: "2px",
+          background: "linear-gradient(90deg, transparent, #6cdcff 40%, #bc45e9)",
         }}
       />
 
-      {/* Glow orbs — parallax independiente */}
-      <div ref={orbPurple}
-        className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none will-change-transform"
-        style={{ background: "radial-gradient(circle, #bc45e9, transparent)" }} />
-      <div ref={orbCyan}
-        className="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-15 pointer-events-none will-change-transform"
-        style={{ background: "radial-gradient(circle, #6cdcff, transparent)" }} />
+      {/* ── Main two-column layout ── */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full px-5 pt-20 pb-0">
+        <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0">
 
-      {/* Llama — solo desktop, asoma desde la derecha con parallax */}
-      <div className="hidden md:block absolute right-0 bottom-0 top-0 pointer-events-none overflow-hidden" style={{ width: "42%" }}>
-        {/* Glow de colores detrás de la llama */}
-        <div
-          className="absolute bottom-0 right-0 w-full h-full pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse 80% 70% at 90% 80%, rgba(108,220,255,0.12) 0%, rgba(188,69,233,0.1) 50%, transparent 80%)",
-          }}
-        />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          ref={llamaRef}
-          src="/llama-bg.png"
-          alt=""
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            bottom: "-2%",
-            right: 0,
-            height: "88%",
-            width: "auto",
-            filter: "brightness(0) invert(1)",
-            opacity: 0.07,
-            transform: "translateX(18%)",
-            willChange: "transform",
-          }}
-        />
-      </div>
+          {/* LEFT — text */}
+          <div className="flex-1 flex flex-col justify-center gap-5 md:pr-10 pb-12 md:pb-16">
 
-      {/* ── Hero content — siempre centrado ── */}
-      <div className="relative z-10 max-w-5xl mx-auto w-full flex flex-col items-center gap-10">
-
-        {/* Badges */}
-        <div className="flex flex-col sm:flex-row items-center gap-3">
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
-            style={{ background: "rgba(108,220,255,0.1)", border: "1px solid rgba(108,220,255,0.3)", color: "#6cdcff" }}
-          >
-            <span className="badge-dot" />
-            Próximamente en Perú
-          </div>
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold"
-            style={{ background: "rgba(188,69,233,0.1)", border: "1px solid rgba(188,69,233,0.3)", color: "#cc6ef0" }}
-          >
-            <span style={{
-              width: "7px", height: "7px", borderRadius: "50%",
-              background: "#bc45e9", boxShadow: "0 0 8px #bc45e9",
-              animation: "pulse-dot 1.5s infinite", flexShrink: 0,
-            }} />
-            Solo quedan <strong style={{ color: "white" }}>&nbsp;47 lugares</strong>&nbsp;de acceso anticipado
-          </div>
-        </div>
-
-        {/* Headline — parallax suave */}
-        <div ref={headlineRef} className="text-center max-w-3xl will-change-transform">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none tracking-tight text-white mb-4">
-            Haz crecer{" "}
-            <span className="gradient-text-cyan">tu platita</span>
-            <br />
-            <span style={{ color: "rgba(255,255,255,0.55)" }}>en bienes raíces</span>
-          </h1>
-          <p className="text-lg md:text-xl leading-relaxed mt-6 max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,0.65)" }}>
-            Invierte desde <strong className="text-white">S/500</strong> en proyectos
-            inmobiliarios del Perú. Rentabilidades del{" "}
-            <strong className="text-white">10 al 22% anual</strong>. 100% online.
-          </p>
-        </div>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <button
-            onClick={() => setShowSim((v) => !v)}
-            className="btn-gradient px-8 py-4 rounded-full text-base font-bold flex items-center gap-2"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </svg>
-            {showSim ? "Cerrar simulador" : "Simula tu inversión"}
-          </button>
-          <a href="#como-funciona" className="btn-outline px-8 py-4 rounded-full text-base flex items-center gap-2">
-            <span>▶</span>
-            Ver cómo funciona
-          </a>
-        </div>
-      </div>
-
-      {/* VSL Video */}
-      <div className="relative z-10 w-full max-w-3xl mt-14 mx-auto">
-        <div className="glass-card rounded-3xl overflow-hidden relative" style={{ aspectRatio: "16/9" }}>
-          {!videoActive ? (
+            {/* Badge */}
             <div
-              className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
-              style={{ background: "linear-gradient(135deg, rgba(188,69,233,0.4) 0%, rgba(28,15,76,0.9) 100%)" }}
-              onClick={() => setVideoActive(true)}
+              className="flex items-center gap-2 w-fit px-4 py-1.5 rounded-md text-xs font-bold tracking-widest uppercase"
+              style={{
+                background: "rgba(12,18,55,0.05)",
+                border: "1px solid rgba(12,18,55,0.13)",
+                color: "#1c0f4c",
+              }}
             >
-              <div className="absolute bottom-8 left-0 right-0 flex items-end justify-center gap-1 opacity-30">
-                {WAVEFORM_HEIGHTS.map((h, i) => (
-                  <div key={i} className="w-1 rounded-full" style={{ height: `${h}px`, background: "#6cdcff" }} />
+              <span style={{
+                width: "6px", height: "6px", borderRadius: "50%",
+                background: "#bc45e9", boxShadow: "0 0 6px #bc45e9",
+                animation: "pulse-dot 1.5s infinite", flexShrink: 0,
+              }} />
+              Próximamente · Perú
+            </div>
+
+            {/* Headline */}
+            <h1 className="text-5xl md:text-6xl lg:text-[4.25rem] font-black leading-[1.02] tracking-tight" style={{ color: "#080b1e" }}>
+              Invierte y gana
+              <br />
+              <span className="gradient-text-cyan">hasta 18%</span>
+              <br />
+              <span style={{ color: "rgba(8,11,30,0.55)", fontWeight: 800 }}>de retorno anual</span>
+            </h1>
+
+            <p className="text-base md:text-lg leading-relaxed max-w-md" style={{ color: "rgba(8,11,30,0.54)" }}>
+              Invierte desde <strong style={{ color: "#080b1e" }}>S/10,000</strong> en proyectos
+              inmobiliarios del Perú verificados. 100% online, sin trámites.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 items-start">
+              <a
+                href="#registro"
+                className="btn-gradient px-8 py-3.5 rounded-lg text-sm font-bold tracking-wide"
+              >
+                Unirse a la lista de espera →
+              </a>
+              <button
+                onClick={() => setShowSim((v) => !v)}
+                className="px-8 py-3.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all hover:-translate-y-0.5"
+                style={{
+                  border: "1.5px solid rgba(12,18,55,0.16)",
+                  color: "#1c0f4c",
+                  background: "rgba(12,18,55,0.03)",
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+                Simula tu inversión
+              </button>
+            </div>
+
+            {/* Social proof */}
+            <div className="flex items-center gap-2.5 text-xs" style={{ color: "rgba(8,11,30,0.40)" }}>
+              <div className="flex -space-x-1.5">
+                {["#bc45e9","#6cdcff","#8b5cf6"].map((c, i) => (
+                  <div
+                    key={i}
+                    className="w-6 h-6 rounded-full border-2 flex items-center justify-center text-[9px] font-black text-white"
+                    style={{ background: c, borderColor: "#ffffff" }}
+                  >
+                    {["P","M","R"][i]}
+                  </div>
                 ))}
               </div>
-              <div className="text-center z-10">
-                <button className="play-btn mb-4 mx-auto">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28" style={{ marginLeft: "4px" }}>
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
-                <p className="text-white font-bold text-lg">Ver el video</p>
-                <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Descubre cómo funciona Platita.pe — 3 min</p>
+              <span>+500 personas ya en lista de espera</span>
+            </div>
+
+            {/* Trust badges — fintech solemn style */}
+            <div className="flex flex-wrap gap-2">
+              {[
+                { svg: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>, text: "100% seguro" },
+                { svg: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>, text: "Contratos notariales" },
+                { svg: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>, text: "Proyectos en Perú" },
+              ].map((b) => (
+                <div
+                  key={b.text}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold"
+                  style={{
+                    background: "rgba(12,18,55,0.04)",
+                    border: "1px solid rgba(12,18,55,0.10)",
+                    color: "rgba(8,11,30,0.55)",
+                  }}
+                >
+                  {b.svg}
+                  <span>{b.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT — 3D llama (flipped, grande) + floating cards */}
+          <div
+            ref={imageRef}
+            className="flex-1 flex items-end justify-center relative will-change-transform"
+            style={{ minHeight: "520px" }}
+          >
+            {/* Glow behind llama */}
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                bottom: "-5%",
+                left: "5%",
+                right: "0%",
+                height: "85%",
+                background: "radial-gradient(ellipse 70% 60% at 55% 80%, rgba(188,69,233,0.15) 0%, rgba(108,180,255,0.10) 55%, transparent 80%)",
+                filter: "blur(20px)",
+              }}
+            />
+
+            {/* Floating card — 18% rentabilidad (top-left of column) */}
+            <div
+              className="float-a hidden md:flex absolute items-center gap-3 pointer-events-none"
+              style={{
+                top: "8%", left: "0%", zIndex: 20,
+                background: "#ffffff",
+                border: "1px solid #d2dcea",
+                boxShadow: "0 4px 20px rgba(8,10,30,0.10)",
+                borderRadius: "10px",
+                padding: "10px 14px",
+                minWidth: "158px",
+              }}
+            >
+              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(188,69,233,0.08)", border: "1px solid rgba(188,69,233,0.20)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bc45e9" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+                </svg>
               </div>
-              <div
-                className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold"
-                style={{ background: "rgba(108,220,255,0.2)", color: "#6cdcff", border: "1px solid rgba(108,220,255,0.3)" }}
-              >
-                VSL
+              <div>
+                <p style={{ color: "#bc45e9", fontWeight: 900, fontSize: "1.1rem", lineHeight: 1, margin: 0 }}>18%</p>
+                <p style={{ color: "rgba(8,11,30,0.42)", fontSize: "0.62rem", fontWeight: 600, margin: "2px 0 0", whiteSpace: "nowrap" }}>Rentabilidad anual</p>
               </div>
             </div>
-          ) : (
-            <iframe
-              src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`}
-              title="Platita.pe — Video explicativo"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 w-full h-full"
+
+            {/* Floating card — S/10K mínimo (mid-right) */}
+            <div
+              className="float-b hidden md:flex absolute items-center gap-3 pointer-events-none"
+              style={{
+                top: "38%", right: "-2%", zIndex: 20,
+                background: "#ffffff",
+                border: "1px solid #d2dcea",
+                boxShadow: "0 4px 20px rgba(8,10,30,0.10)",
+                borderRadius: "10px",
+                padding: "10px 14px",
+                minWidth: "148px",
+              }}
+            >
+              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(108,180,255,0.10)", border: "1px solid rgba(108,180,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0080c9" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="8" cy="8" r="6" /><path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
+                </svg>
+              </div>
+              <div>
+                <p style={{ color: "#080b1e", fontWeight: 900, fontSize: "1rem", lineHeight: 1, margin: 0 }}>S/ 10,000</p>
+                <p style={{ color: "rgba(8,11,30,0.42)", fontSize: "0.62rem", fontWeight: 600, margin: "2px 0 0", whiteSpace: "nowrap" }}>Inversión mínima</p>
+              </div>
+            </div>
+
+            {/* Floating card — 100% legal (bottom-left) */}
+            <div
+              className="float-c hidden lg:flex absolute items-center gap-3 pointer-events-none"
+              style={{
+                bottom: "28%", left: "1%", zIndex: 20,
+                background: "#ffffff",
+                border: "1px solid #d2dcea",
+                boxShadow: "0 4px 20px rgba(8,10,30,0.10)",
+                borderRadius: "10px",
+                padding: "10px 14px",
+              }}
+            >
+              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(108,180,255,0.10)", border: "1px solid rgba(108,180,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0080c9" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" />
+                </svg>
+              </div>
+              <div>
+                <p style={{ color: "#080b1e", fontWeight: 900, fontSize: "0.88rem", lineHeight: 1, margin: 0 }}>100% legal</p>
+                <p style={{ color: "rgba(8,11,30,0.42)", fontSize: "0.62rem", fontWeight: 600, margin: "2px 0 0", whiteSpace: "nowrap" }}>Contratos notariales</p>
+              </div>
+            </div>
+
+            <Image
+              src="/llama-3d.svg"
+              alt="Invierte con Platita.pe"
+              width={700}
+              height={700}
+              className="relative z-10 w-full max-w-85 md:max-w-120 lg:max-w-135"
+              priority
+              style={{ transform: "scaleX(-1)" }}
             />
-          )}
+          </div>
         </div>
       </div>
-
     </section>
 
-    {/* ── Panel simulador — fijo, desliza desde la derecha ── */}
+    {/* ── Simulador panel — light theme, desliza desde la derecha ── */}
     <div
       style={{
         position: "fixed",
-        top: 0,
-        right: 0,
+        top: 0, right: 0,
         height: "100dvh",
         width: "min(420px, 100vw)",
         zIndex: 100,
@@ -235,48 +327,41 @@ export default function HeroSection() {
         transition: "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
         display: "flex",
         flexDirection: "column",
-        background: "rgba(22, 10, 58, 0.75)",
+        background: "#f8fbff",
         backdropFilter: "blur(24px)",
-        borderLeft: "1px solid rgba(108,220,255,0.2)",
-        boxShadow: showSim ? "-20px 0 80px rgba(188,69,233,0.2)" : "none",
+        borderLeft: "1px solid #d2dcea",
+        boxShadow: showSim ? "-12px 0 60px rgba(8,10,30,0.12)" : "none",
       }}
     >
-      {/* Shimmer top border */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-        background: "linear-gradient(90deg, transparent, #6cdcff, #bc45e9, transparent)",
-        backgroundSize: "200% 100%",
-        animation: "shimmer-bar 2.5s linear infinite",
-      }} />
+      {/* Borde animado cyan→magenta de izquierda a derecha */}
+      <div className="sim-border-ltr" />
 
-      {/* Header del panel */}
       <div className="flex items-center justify-between p-5 pb-0">
         <div>
-          <p className="text-white font-black text-lg">Simulador</p>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>hasta 22% anual</p>
+          <p className="font-black text-lg" style={{ color: "#080b1e" }}>Simulador de inversión</p>
+          <p className="text-xs font-medium" style={{ color: "rgba(8,11,30,0.45)" }}>Estimación al 18% anual</p>
         </div>
         <button
           onClick={() => setShowSim(false)}
-          className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-110"
-          style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
+          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:scale-110"
+          style={{ background: "rgba(12,18,55,0.06)", border: "1px solid rgba(12,18,55,0.10)" }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#080b1e" strokeWidth="2.5" strokeLinecap="round">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
       </div>
 
-      {/* Contenido scrollable */}
-      <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-5">
+      <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-4">
 
-        {/* Amount */}
+        {/* ── Monto ── */}
         <div>
           <div className="flex justify-between mb-2">
-            <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.45)" }}>Monto a invertir</span>
-            <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>mín. S/500</span>
+            <span className="text-xs font-semibold" style={{ color: "rgba(8,11,30,0.50)" }}>Monto a invertir</span>
+            <span className="text-xs" style={{ color: "rgba(8,11,30,0.35)" }}>mín. S/ 10,000</span>
           </div>
           <div className="relative">
-            <span className="absolute top-1/2 -translate-y-1/2 left-4 font-black text-lg select-none pointer-events-none" style={{ color: "#6cdcff" }}>S/</span>
+            <span className="absolute top-1/2 -translate-y-1/2 left-4 font-black text-lg select-none pointer-events-none" style={{ color: "#bc45e9" }}>S/</span>
             <input
               type="number"
               value={rawInput}
@@ -289,36 +374,20 @@ export default function HeroSection() {
               }}
               onBlur={() => {
                 const clamped = Math.min(MAX_AMOUNT, Math.max(MIN_AMOUNT, Number(rawInput) || MIN_AMOUNT));
-                setAmount(clamped);
-                setRawInput(String(clamped));
+                setAmount(clamped); setRawInput(String(clamped));
               }}
-              className="form-input text-xl font-black"
+              className="form-input-light text-xl"
               style={{ paddingLeft: "3.5rem" }}
             />
           </div>
-          <input
-            type="range"
-            min={MIN_AMOUNT}
-            max={MAX_AMOUNT}
-            step={500}
-            value={amount}
-            onChange={(e) => { const n = Number(e.target.value); setAmount(n); setRawInput(String(n)); }}
-            className="w-full mt-3"
-            style={{ accentColor: "#6cdcff", height: "4px", cursor: "pointer" }}
-          />
-          <div className="flex justify-between text-xs mt-1" style={{ color: "rgba(255,255,255,0.25)" }}>
-            <span>S/500</span><span>S/50,000</span>
-          </div>
-          <div className="flex gap-2 mt-3 flex-wrap">
-            {[1000, 5000, 10000, 20000].map((v) => (
-              <button
-                key={v}
-                onClick={() => { setAmount(v); setRawInput(String(v)); }}
-                className="px-3 py-1 rounded-lg text-xs font-semibold transition-all"
+          <div className="flex gap-2 mt-2.5 flex-wrap">
+            {[10000, 25000, 50000, 100000].map((v) => (
+              <button key={v} onClick={() => { setAmount(v); setRawInput(String(v)); }}
+                className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                 style={{
-                  background: amount === v ? "rgba(108,220,255,0.2)" : "rgba(255,255,255,0.06)",
-                  border: amount === v ? "1px solid rgba(108,220,255,0.5)" : "1px solid rgba(255,255,255,0.1)",
-                  color: amount === v ? "#6cdcff" : "rgba(255,255,255,0.4)",
+                  background: amount === v ? "rgba(188,69,233,0.10)" : "#ffffff",
+                  border: amount === v ? "1.5px solid rgba(188,69,233,0.40)" : "1px solid #d2dcea",
+                  color: amount === v ? "#bc45e9" : "rgba(8,11,30,0.45)",
                 }}
               >
                 S/{v >= 1000 ? `${v / 1000}k` : v}
@@ -327,120 +396,107 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Period */}
+        {/* ── Período ── */}
         <div>
-          <span className="text-xs font-semibold mb-2 block" style={{ color: "rgba(255,255,255,0.45)" }}>Período de inversión</span>
+          <span className="text-xs font-semibold mb-2 block" style={{ color: "rgba(8,11,30,0.50)" }}>Período de inversión</span>
           <div className="grid grid-cols-5 gap-1.5">
             {PERIODS.map((p) => (
               <div key={p.months} className="relative">
                 <button
                   onClick={() => p.available && setMonths(p.months)}
-                  className="w-full py-2.5 rounded-xl text-xs font-bold transition-all"
+                  className="w-full py-2.5 rounded-lg text-xs font-bold transition-all"
                   style={{
-                    background: !p.available ? "rgba(255,255,255,0.03)" : months === p.months ? "linear-gradient(135deg, #6cdcff, #bc45e9)" : "rgba(255,255,255,0.06)",
-                    border: !p.available ? "1px solid rgba(255,255,255,0.05)" : months === p.months ? "none" : "1px solid rgba(255,255,255,0.1)",
-                    color: !p.available ? "rgba(255,255,255,0.2)" : months === p.months ? "white" : "rgba(255,255,255,0.5)",
-                    boxShadow: p.available && months === p.months ? "0 4px 20px rgba(108,220,255,0.3)" : "none",
+                    background: !p.available
+                      ? "rgba(12,18,55,0.03)"
+                      : months === p.months
+                        ? "linear-gradient(135deg, #6cdcff, #bc45e9)"
+                        : "#ffffff",
+                    border: !p.available
+                      ? "1px solid rgba(12,18,55,0.06)"
+                      : months === p.months
+                        ? "none"
+                        : "1px solid #d2dcea",
+                    color: !p.available
+                      ? "rgba(8,11,30,0.22)"
+                      : months === p.months
+                        ? "white"
+                        : "rgba(8,11,30,0.55)",
+                    boxShadow: p.available && months === p.months ? "0 4px 16px rgba(188,69,233,0.28)" : "none",
                     cursor: p.available ? "pointer" : "default",
                   }}
-                >
-                  {p.label}
-                </button>
-                {!p.available && (
-                  <span className="absolute top-0.5 right-0.5 text-[9px] opacity-40 pointer-events-none select-none">🔒</span>
-                )}
+                >{p.label}</button>
+                {!p.available && <span className="absolute top-0.5 right-0.5 text-[9px] opacity-30 pointer-events-none select-none">🔒</span>}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Results */}
-        <div
-          className="rounded-2xl p-5 relative overflow-hidden"
-          style={{
-            background: "linear-gradient(135deg, rgba(108,220,255,0.08), rgba(188,69,233,0.12))",
-            border: "1px solid rgba(108,220,255,0.2)",
-          }}
+        {/* ── Resultados ── */}
+        <div className="rounded-xl p-5 relative overflow-hidden"
+          style={{ background: "#ffffff", border: "1.5px solid #d2dcea", boxShadow: "0 2px 12px rgba(8,10,30,0.06)" }}
         >
-          <div style={{
-            position: "absolute", top: 0, left: 0, right: 0, height: "2px",
-            background: "linear-gradient(90deg, transparent, #6cdcff, #bc45e9, transparent)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer-bar 2.5s linear infinite",
-          }} />
-
-          <div className="space-y-4">
+          {/* mini borde animado en el card de resultado */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(90deg, #6cdcff 0%, #bc45e9 50%, #6cdcff 100%)", backgroundSize: "200% 100%", animation: "border-sweep-ltr 2.8s ease-in-out infinite" }} />
+          <div className="space-y-3.5 pt-1">
             <div className="flex justify-between items-center">
-              <span className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>Tu inversión</span>
-              <span key={`inv-${amount}`} className="text-xl font-black text-white sim-result-value">S/ {fmt(amount)}</span>
+              <span className="text-sm" style={{ color: "rgba(8,11,30,0.45)" }}>Tu inversión</span>
+              <span key={`inv-${amount}`} className="text-xl font-black sim-result-value" style={{ color: "#080b1e" }}>S/ {fmt(amount)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm" style={{ color: "#6cdcff" }}>Ganancia estimada</span>
+              <span className="text-sm font-semibold" style={{ color: "#bc45e9" }}>Ganancia estimada</span>
               <div className="text-right">
-                <span key={`earn-${amount}-${months}`} className="text-xl font-black sim-result-value block" style={{ color: "#6cdcff" }}>+S/ {fmt(earnings)}</span>
-                <span className="text-xs" style={{ color: "rgba(108,220,255,0.6)" }}>{roiPct}% en {months} meses</span>
+                <span key={`earn-${amount}-${months}`} className="text-xl font-black sim-result-value block" style={{ color: "#bc45e9" }}>+S/ {fmt(earnings)}</span>
+                <span className="text-xs" style={{ color: "rgba(188,69,233,0.60)" }}>{roiPct}% en {months} meses</span>
               </div>
             </div>
-            <div className="h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
+            <div className="h-px" style={{ background: "#e8eef6" }} />
             <div className="flex justify-between items-center">
-              <span className="text-sm font-bold text-white">Total al final</span>
-              <span key={`total-${amount}-${months}`} className="text-2xl font-black text-white sim-result-value">S/ {fmt(total)}</span>
+              <span className="text-sm font-bold" style={{ color: "#080b1e" }}>Total al final</span>
+              <span key={`total-${amount}-${months}`} className="text-2xl font-black sim-result-value" style={{ color: "#080b1e" }}>S/ {fmt(total)}</span>
             </div>
           </div>
         </div>
 
-        {/* Rate note */}
-        <div
-          className="flex items-center gap-3 p-4 rounded-2xl"
-          style={{ background: "rgba(188,69,233,0.1)", border: "1px solid rgba(188,69,233,0.2)" }}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bc45e9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+        {/* Disclaimer */}
+        <div className="flex items-center gap-3 p-3.5 rounded-xl" style={{ background: "rgba(12,18,55,0.04)", border: "1px solid rgba(12,18,55,0.09)" }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(8,11,30,0.40)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
-            Proyección al 22% anual. Las inversiones están sujetas a riesgo.
+          <p className="text-xs" style={{ color: "rgba(8,11,30,0.42)" }}>
+            Proyección referencial al 18% anual. Las inversiones están sujetas a riesgo.
           </p>
         </div>
 
-        <a href="#registro" onClick={() => setShowSim(false)} className="btn-gradient text-center py-4 rounded-2xl font-bold text-base">
+        <a href="#registro" onClick={() => setShowSim(false)}
+          className="btn-gradient text-center py-3.5 rounded-xl font-bold text-base">
           Quiero invertir ahora
         </a>
 
-        {/* WA channel */}
-        <a
-          href={WA_CHANNEL_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3 rounded-2xl p-4 transition-all hover:scale-[1.02]"
-          style={{ background: "rgba(37,211,102,0.08)", border: "1px solid rgba(37,211,102,0.25)" }}
+        {/* WA */}
+        <a href={WA_CHANNEL_URL} target="_blank" rel="noopener noreferrer"
+          className="flex items-center gap-3 rounded-xl p-4 transition-all hover:scale-[1.01]"
+          style={{ background: "rgba(37,211,102,0.06)", border: "1px solid rgba(37,211,102,0.22)" }}
         >
-          <div className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(37,211,102,0.2)" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
+          <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "rgba(37,211,102,0.14)" }}>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="#25D366">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-white">Únete a nuestro canal</p>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>No te pierdas nada — ofertas exclusivas</p>
+            <p className="text-sm font-bold" style={{ color: "#080b1e" }}>Únete a nuestro canal</p>
+            <p className="text-xs" style={{ color: "rgba(8,11,30,0.42)" }}>Ofertas exclusivas antes del lanzamiento</p>
           </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(8,11,30,0.30)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </a>
-
       </div>
     </div>
 
-    {/* Backdrop semitransparente al abrir el panel */}
     {showSim && (
       <div
         onClick={() => setShowSim(false)}
-        style={{
-          position: "fixed", inset: 0, zIndex: 99,
-          background: "rgba(0,0,0,0.35)",
-          backdropFilter: "blur(2px)",
-          animation: "count-up 0.3s ease-out",
-        }}
+        style={{ position: "fixed", inset: 0, zIndex: 99, background: "rgba(0,0,0,0.25)", backdropFilter: "blur(2px)", animation: "count-up 0.3s ease-out" }}
       />
     )}
 

@@ -42,7 +42,7 @@ const projects: Project[] = [
     type: "Multifamiliar",
     roi: "18%",
     plazo: "18 meses",
-    min: "S/ 500",
+    min: "S/ 10,000",
     funded: 45,
     tag: "Próximamente",
     tagColor: "#a78bfa",
@@ -54,7 +54,7 @@ const projects: Project[] = [
     name: "Viva San Isidro",
     location: "San Isidro, Lima",
     type: "Oficinas corporativas",
-    roi: "22%",
+    roi: "18%",
     plazo: "12 meses",
     min: "S/ 2,000",
     funded: 92,
@@ -70,7 +70,7 @@ const projects: Project[] = [
     type: "Ecodesarrollo mixto",
     roi: "19%",
     plazo: "24 meses",
-    min: "S/ 500",
+    min: "S/ 10,000",
     funded: 30,
     tag: "Nuevo",
     tagColor: "#f97316",
@@ -130,8 +130,14 @@ function ProjectCard({ p }: { p: Project }) {
 
   return (
     <div
-      className="glass-card rounded-3xl overflow-hidden group hover:-translate-y-2 transition-all duration-300"
-      style={{ display: "flex", flexDirection: "column" }}
+      className="rounded-3xl overflow-hidden group hover:-translate-y-2 transition-all duration-300"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        background: "#ffffff",
+        border: "1px solid #d2dcea",
+        boxShadow: "0 1px 4px rgba(28,15,76,0.06), 0 4px 20px rgba(28,15,76,0.04)",
+      }}
     >
       {/* ── Project image area ───────────────────────────── */}
       <div
@@ -232,10 +238,10 @@ function ProjectCard({ p }: { p: Project }) {
       <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px", flex: 1 }}>
         {/* Title & location */}
         <div>
-          <h3 style={{ color: "white", fontWeight: 800, fontSize: "1rem", margin: 0, lineHeight: 1.3 }}>
+          <h3 style={{ color: "#0f0a2e", fontWeight: 800, fontSize: "1rem", margin: 0, lineHeight: 1.3 }}>
             {p.name}
           </h3>
-          <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.75rem", margin: "4px 0 0", fontWeight: 500 }}>
+          <p style={{ color: "rgba(15,10,46,0.45)", fontSize: "0.75rem", margin: "4px 0 0", fontWeight: 500 }}>
             {p.location} · {p.type}
           </p>
         </div>
@@ -250,16 +256,16 @@ function ProjectCard({ p }: { p: Project }) {
               key={s.label}
               style={{
                 flex: 1,
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "#eef2f9",
+                border: "1px solid #d2dcea",
                 borderRadius: "10px",
                 padding: "8px 10px",
               }}
             >
-              <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.6rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>
+              <p style={{ color: "rgba(15,10,46,0.4)", fontSize: "0.6rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>
                 {s.label}
               </p>
-              <p style={{ color: "white", fontWeight: 700, fontSize: "0.8rem", margin: "2px 0 0" }}>
+              <p style={{ color: "#0f0a2e", fontWeight: 700, fontSize: "0.8rem", margin: "2px 0 0" }}>
                 {s.value}
               </p>
             </div>
@@ -269,14 +275,14 @@ function ProjectCard({ p }: { p: Project }) {
         {/* Funding progress */}
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
-            <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.7rem", fontWeight: 600 }}>
+            <span style={{ color: "rgba(15,10,46,0.45)", fontSize: "0.7rem", fontWeight: 600 }}>
               Financiado
             </span>
             <span style={{ color: p.tagColor, fontSize: "0.7rem", fontWeight: 800 }}>
               {p.funded}%
             </span>
           </div>
-          <div style={{ height: "6px", background: "rgba(255,255,255,0.07)", borderRadius: "99px", overflow: "hidden" }}>
+          <div style={{ height: "6px", background: "rgba(28,15,76,0.08)", borderRadius: "99px", overflow: "hidden" }}>
             <div
               style={{
                 height: "100%",
@@ -316,15 +322,21 @@ function ProjectCard({ p }: { p: Project }) {
 
 export default function ProyectosSection() {
   return (
-    <section id="proyectos" className="py-24 px-4" style={{ background: "#08061a" }}>
+    <section id="proyectos" className="py-24 px-4" style={{ background: "#eef2f9" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+          <span
+            className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
+            style={{ background: "rgba(28,15,76,0.07)", border: "1px solid rgba(28,15,76,0.14)", color: "#1c0f4c" }}
+          >
+            Oportunidades
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#0f0a2e" }}>
             Proyectos{" "}
             <span className="gradient-text">disponibles</span>
           </h2>
-          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(255,255,255,0.55)" }}>
+          <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(15,10,46,0.5)" }}>
             Proyectos inmobiliarios verificados, con due diligence completo y retornos comprobados
           </p>
         </div>
@@ -337,7 +349,7 @@ export default function ProyectosSection() {
         </div>
 
         {/* Bottom note */}
-        <p className="text-center mt-10 text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
+        <p className="text-center mt-10 text-xs" style={{ color: "rgba(15,10,46,0.3)" }}>
           *Porcentajes de financiamiento y disponibilidad son referenciales. Sujeto a cambios.
         </p>
       </div>
