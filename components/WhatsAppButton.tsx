@@ -1,9 +1,7 @@
+import { WA_CONTACT_URL } from "@/lib/config";
+
 export default function WhatsAppButton() {
-  const phone = "51999999999"; // reemplaza con tu número
-  const message = encodeURIComponent(
-    "Hola, me interesa saber más sobre Platita.pe y cómo puedo invertir en bienes raíces."
-  );
-  const href = `https://wa.me/${phone}?text=${message}`;
+  const href = WA_CONTACT_URL;
 
   return (
     <a
