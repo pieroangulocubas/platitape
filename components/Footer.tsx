@@ -33,7 +33,7 @@ export default function Footer() {
           {/* Isotipo */}
           <a href="#" className="flex items-center">
             <Image
-              src="/isotipo.svg"
+              src="/isotipo.png"
               alt="Platita.pe"
               width={150}
               height={44}
@@ -56,13 +56,6 @@ export default function Footer() {
           </p>
         </div>
 
-        <div
-          className="mt-10 pt-6 border-t text-center text-xs"
-          style={{ borderColor: "rgba(28,15,76,0.10)", color: "rgba(15,10,46,0.38)" }}
-        >
-          Las inversiones están sujetas a riesgo. La rentabilidad pasada no garantiza resultados futuros.
-          Platita.pe opera bajo la normativa vigente de la SBS y la SMV del Perú.
-        </div>
       </div>
     </footer>
   );

@@ -1,6 +1,6 @@
-"use client";
-import { useState, useEffect } from "react";
+﻿"use client";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   { label: "¿Cómo funciona?", href: "#como-funciona" },
@@ -25,15 +25,17 @@ export default function Navbar() {
       style={{
         background: scrolled ? "rgba(248,251,255,0.98)" : "rgba(255,255,255,0.92)",
         backdropFilter: "blur(20px)",
-        borderBottom: scrolled ? "1px solid rgba(12,18,55,0.10)" : "1px solid rgba(12,18,55,0.07)",
-        boxShadow: scrolled ? "0 1px 16px rgba(8,10,30,0.07)" : "none",
+        borderBottom: "none",
+        boxShadow: scrolled
+          ? "0 2px 24px rgba(8,10,30,0.12), 0 1px 4px rgba(8,10,30,0.06)"
+          : "0 1px 10px rgba(8,10,30,0.07)",
       }}
     >
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center">
           <Image
-            src="/isotipo.svg"
+            src="/isotipo.png"
             alt="Platita.pe"
             width={140}
             height={40}
@@ -76,15 +78,15 @@ export default function Navbar() {
         >
           <span
             className="block w-5 h-0.5 transition-transform duration-200"
-            style={{ background: "#0f0a2e", transform: menuOpen ? "rotate(45deg) translateY(8px)" : "" }}
+            style={{ background: "#1c0f4c", transform: menuOpen ? "rotate(45deg) translateY(8px)" : "" }}
           />
           <span
             className="block w-5 h-0.5 transition-opacity duration-200"
-            style={{ background: "#0f0a2e", opacity: menuOpen ? 0 : 1 }}
+            style={{ background: "#1c0f4c", opacity: menuOpen ? 0 : 1 }}
           />
           <span
             className="block w-5 h-0.5 transition-transform duration-200"
-            style={{ background: "#0f0a2e", transform: menuOpen ? "rotate(-45deg) translateY(-8px)" : "" }}
+            style={{ background: "#1c0f4c", transform: menuOpen ? "rotate(-45deg) translateY(-8px)" : "" }}
           />
         </button>
       </div>

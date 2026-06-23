@@ -1,18 +1,17 @@
-const rows = [
-  { label: "Rentabilidad anual",     platita: "10% – 18%",           banco: "3% – 5%",          afp: "5% – 7%",         dolares: "~0%",          inmueble: "6% – 10%",        platitaHighlight: true },
-  { label: "Inversión mínima",       platita: "S/ 10,000",              banco: "S/ 1,000+",        afp: "Descuento mensual", dolares: "Cualquiera",  inmueble: "S/ 200,000+",     platitaHighlight: true },
-  { label: "Respaldo del capital",   platita: "Activo inmobiliario", banco: "Fondo de seguro",  afp: "Fondo colectivo", dolares: "Ninguno",      inmueble: "Propiedad directa", platitaHighlight: true },
-  { label: "Proceso",                platita: "100% online · 5 min", banco: "Presencial / app", afp: "Automático",      dolares: "Casa de cambio", inmueble: "Notaría + bancos", platitaHighlight: true },
-  { label: "Gestión del activo",     platita: "Nosotros lo hacemos", banco: "N/A",              afp: "Administradora",  dolares: "Tú mismo",     inmueble: "Tú mismo",        platitaHighlight: true },
-  { label: "Comisiones de entrada",  platita: "S/ 0",                banco: "Varía",            afp: "% del aporte",    dolares: "% de cambio",  inmueble: "3% – 5% + notaría", platitaHighlight: true },
+﻿const rows = [
+  { label: "Rentabilidad anual",    banco: "3% – 5%",            afp: "5% – 7%",          inmueble: "6% – 9%",         platita: "16% anual"            },
+  { label: "Inversión mínima",      banco: "S/ 1,000+",          afp: "Descuento mensual", inmueble: "S/ 200,000+",     platita: "S/ 10,000"            },
+  { label: "Respaldo del capital",  banco: "Fondo de seguro",    afp: "Fondo colectivo",  inmueble: "Propiedad",       platita: "Activo inmobiliario"  },
+  { label: "Proceso",               banco: "Colas presenciales", afp: "Colas presenciales", inmueble: "Notaría + bancos", platita: "100% online · 5 min" },
+  { label: "Gestión del activo",    banco: "N/A",                afp: "Administradora",   inmueble: "Tú mismo",        platita: "Nosotros lo hacemos"  },
+  { label: "Comisiones de entrada", banco: "Varía",              afp: "% del aporte",     inmueble: "3% – 5% + notaría", platita: "S/ 0"               },
 ];
 
 const cols = [
-  { key: "platita",  label: "Platita.pe",      highlight: true  },
   { key: "banco",    label: "Banco",            highlight: false },
   { key: "afp",      label: "AFP",              highlight: false },
-  { key: "dolares",  label: "Dólares",          highlight: false },
   { key: "inmueble", label: "Inmueble directo", highlight: false },
+  { key: "platita",  label: "Platita.pe",       highlight: true  },
 ];
 
 export default function ComparativoSection() {
@@ -28,7 +27,7 @@ export default function ComparativoSection() {
           >
             ¿Por qué Platita.pe?
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#080b1e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#1c0f4c" }}>
             Compara y decide{" "}
             <span className="gradient-text">con datos</span>
           </h2>
@@ -114,7 +113,7 @@ export default function ComparativoSection() {
                             textAlign: "center",
                             fontSize: col.highlight ? "0.88rem" : "0.8rem",
                             fontWeight: col.highlight ? 700 : 500,
-                            color: col.highlight ? "#0f0a2e" : "rgba(15,10,46,0.38)",
+                            color: col.highlight ? "#1c0f4c" : "rgba(15,10,46,0.38)",
                             background: col.highlight
                               ? "rgba(188,69,233,0.04)"
                               : "rgba(28,15,76,0.015)",

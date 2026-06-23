@@ -1,16 +1,16 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
-const ANNUAL_RATE = 0.18;
+const ANNUAL_RATE = 0.16;
 const MIN_AMOUNT  = 10000;
-const MAX_AMOUNT  = 100000;
+const MAX_AMOUNT  = 1000000;
 
 const periods = [
   { months: 3,  label: "3 meses",  available: false },
   { months: 6,  label: "6 meses",  available: false },
   { months: 12, label: "12 meses", available: true  },
-  { months: 18, label: "18 meses", available: false },
-  { months: 24, label: "24 meses", available: false },
+  { months: 18, label: "18 meses", available: true  },
+  { months: 24, label: "24 meses", available: true  },
 ];
 
 function fmt(n: number) {
@@ -27,7 +27,7 @@ function clampAmount(v: number) {
 const inputStyle: React.CSSProperties = {
   background: "#eef2f9",
   border: "1px solid #dddaf5",
-  color: "#0f0a2e",
+  color: "#1c0f4c",
   borderRadius: "0.75rem",
   padding: "0.875rem 1rem",
   width: "100%",
@@ -43,10 +43,11 @@ export default function SimuladorSection() {
   const [rawInput, setRawInput] = useState<string>("10000");
   const [months, setMonths]     = useState<number>(12);
 
-  const earnings  = amount * ANNUAL_RATE * (months / 12);
-  const total     = amount + earnings;
-  const roiPct    = ((earnings / amount) * 100).toFixed(1);
-  const barWidth  = Math.min(100, (months / 24) * 100);
+  const earnings        = amount * ANNUAL_RATE * (months / 12);
+  const total           = amount + earnings;
+  const roiPct          = ((earnings / amount) * 100).toFixed(1);
+  const monthlyEarnings = amount * ANNUAL_RATE / 12;
+  const barWidth        = Math.min(100, (months / 24) * 100);
 
   return (
     <section
@@ -54,7 +55,7 @@ export default function SimuladorSection() {
       className="py-28 px-4 relative overflow-hidden"
       style={{ background: "#eef2f9" }}
     >
-      {/* Decorative "18%" flotante */}
+      {/* Decorative "16%" flotante */}
       <div
         style={{
           position: "absolute", left: "-2%", top: "50%", transform: "translateY(-50%)",
@@ -64,7 +65,7 @@ export default function SimuladorSection() {
           userSelect: "none", pointerEvents: "none", letterSpacing: "-0.05em",
         }}
       >
-        18%
+        16%
       </div>
 
       {/* Llama decorativa */}
@@ -80,7 +81,7 @@ export default function SimuladorSection() {
           >
             Simulador de inversión
           </span>
-          <h2 className="text-5xl md:text-6xl font-black mt-5 mb-4 leading-tight" style={{ color: "#0f0a2e" }}>
+          <h2 className="text-5xl md:text-6xl font-black mt-5 mb-4 leading-tight" style={{ color: "#1c0f4c" }}>
             ¿Cuánto puede crecer{" "}
             <span className="gradient-text">tu platita?</span>
           </h2>
@@ -229,7 +230,7 @@ export default function SimuladorSection() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold" style={{ color: "#0f0a2e" }}>Tasa estimada: 18% anual</p>
+                  <p className="text-sm font-semibold" style={{ color: "#1c0f4c" }}>Tasa estimada: 16% anual</p>
                   <p className="text-xs" style={{ color: "rgba(15,10,46,0.45)" }}>
                     Basado en rentabilidad histórica de nuestros proyectos
                   </p>
@@ -247,7 +248,7 @@ export default function SimuladorSection() {
                 <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "rgba(15,10,46,0.4)" }}>
                   Tu inversión inicial
                 </p>
-                <p className="text-3xl font-black" style={{ color: "#0f0a2e" }}>S/ {fmt(amount)}</p>
+                <p className="text-3xl font-black" style={{ color: "#1c0f4c" }}>S/ {fmt(amount)}</p>
               </div>
 
               {/* Earnings */}
@@ -256,13 +257,29 @@ export default function SimuladorSection() {
                 style={{ background: "rgba(108,220,255,0.08)", border: "1px solid rgba(108,220,255,0.3)" }}
               >
                 <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "#0097b2" }}>
-                  Ganancia estimada
+                  Ganancia estimada al período
                 </p>
                 <p className="text-4xl font-black" style={{ color: "#0097b2" }}>
                   +S/ {fmt(earnings)}
                 </p>
                 <p className="text-sm mt-1" style={{ color: "rgba(0,151,178,0.7)" }}>
                   {roiPct}% en {months} meses
+                </p>
+              </div>
+
+              {/* Monthly earnings */}
+              <div
+                className="rounded-2xl p-5"
+                style={{ background: "rgba(188,69,233,0.06)", border: "1px solid rgba(188,69,233,0.22)" }}
+              >
+                <p className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: "#bc45e9" }}>
+                  Ganancia mensual (retiro)
+                </p>
+                <p className="text-3xl font-black" style={{ color: "#bc45e9" }}>
+                  +S/ {fmt(monthlyEarnings)}
+                </p>
+                <p className="text-sm mt-1" style={{ color: "rgba(188,69,233,0.65)" }}>
+                  1.3% mensual sobre tu inversión
                 </p>
               </div>
 
@@ -291,7 +308,7 @@ export default function SimuladorSection() {
               </a>
 
               <p className="text-xs text-center" style={{ color: "rgba(15,10,46,0.3)" }}>
-                *Proyección al 18% anual. Las inversiones están sujetas a riesgo.
+                *Proyección referencial al 16% anual. Respaldo legal: Contrato mutuo.
               </p>
             </div>
           </div>

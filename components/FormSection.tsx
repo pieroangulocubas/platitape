@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useMemo } from "react";
 import { peruData } from "@/lib/peru-data";
 import { WA_CONTACT_URL, WA_CHANNEL_URL, FORMSPREE_ENDPOINT } from "@/lib/config";
@@ -27,7 +27,7 @@ const INITIAL: FormData = {
 const lightInput: React.CSSProperties = {
   background: "#ffffff",
   border: "1.5px solid #e0ddf2",
-  color: "#0f0a2e",
+  color: "#1c0f4c",
   borderRadius: "0.75rem",
   padding: "0.875rem 1rem",
   width: "100%",
@@ -131,7 +131,7 @@ export default function FormSection() {
               style={{ background: "linear-gradient(135deg,#22d3ee,#8b5cf6)" }}>
               🎉
             </div>
-            <h2 className="text-3xl font-black" style={{ color: "#0f0a2e" }}>
+            <h2 className="text-3xl font-black" style={{ color: "#1c0f4c" }}>
               ¡Ya estás en la lista!
             </h2>
             <p className="text-lg" style={{ color: "rgba(15,10,46,0.58)" }}>
@@ -162,7 +162,7 @@ export default function FormSection() {
             style={{ background: "rgba(12,18,55,0.06)", border: "1px solid rgba(12,18,55,0.12)", color: "#1c0f4c" }}>
             • Únete a la lista de espera
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#080b1e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#1c0f4c" }}>
             Reserva tu{" "}
             <span className="gradient-text">lugar gratis</span>
           </h2>
@@ -267,7 +267,7 @@ export default function FormSection() {
             </svg>
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <p className="font-semibold text-sm" style={{ color: "#0f0a2e" }}>Únete a nuestro canal de WhatsApp</p>
+            <p className="font-semibold text-sm" style={{ color: "#1c0f4c" }}>Únete a nuestro canal de WhatsApp</p>
             <p className="text-xs mt-0.5" style={{ color: "rgba(15,10,46,0.48)" }}>
               Recibe actualizaciones exclusivas, tips de inversión y el aviso de lanzamiento antes que nadie
             </p>

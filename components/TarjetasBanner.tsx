@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 
 export default function TarjetasBanner() {
   return (
@@ -53,7 +53,7 @@ export default function TarjetasBanner() {
             Próximamente
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-black leading-tight" style={{ color: "#0f0a2e" }}>
+          <h2 className="text-4xl md:text-5xl font-black leading-tight" style={{ color: "#1c0f4c" }}>
             Tu tarjeta{" "}
             <span
               style={{

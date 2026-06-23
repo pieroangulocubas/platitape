@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useRef, useState } from "react";
 
 const WAVEFORM_HEIGHTS = Array.from({ length: 40 }, (_, i) =>
@@ -21,7 +21,7 @@ export default function VSLSection() {
           >
             Por qué elegirnos
           </span>
-          <h2 className="text-3xl md:text-4xl font-black" style={{ color: "#0f0a2e" }}>
+          <h2 className="text-3xl md:text-4xl font-black" style={{ color: "#1c0f4c" }}>
             Por qué invertir en{" "}
             <span className="gradient-text-cyan">Platita.pe</span>
           </h2>
@@ -35,7 +35,7 @@ export default function VSLSection() {
           className="rounded-3xl overflow-hidden relative"
           style={{
             aspectRatio: "16/9",
-            background: "#0f0a2e",
+            background: "#1c0f4c",
             boxShadow: "0 24px 80px rgba(28,15,76,0.16), 0 4px 20px rgba(28,15,76,0.08)",
             border: "1px solid rgba(28,15,76,0.08)",
           }}
@@ -96,7 +96,7 @@ export default function VSLSection() {
                 {/* Stats row */}
                 <div className="flex items-center justify-center gap-5 md:gap-8 mt-4 mb-7">
                   {[
-                    { value: "18%",   label: "anual est.", color: "#6cdcff" },
+                    { value: "16%",   label: "anual est.", color: "#6cdcff" },
                     { value: "S/10K", label: "mínimo",    color: "#ffffff" },
                     { value: "+500",  label: "inscritos",  color: "#bc45e9" },
                   ].map((s, i, arr) => (

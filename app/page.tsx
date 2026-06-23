@@ -1,23 +1,18 @@
-import Navbar                from "@/components/Navbar";
-import HeroSection            from "@/components/HeroSection";
-import VSLSection             from "@/components/VSLSection";
-import StatsSection           from "@/components/StatsSection";
+import AppPreviewSection from "@/components/AppPreviewSection";
+import ComparativoSection from "@/components/ComparativoSection";
+import EquipoSection from "@/components/EquipoSection";
+import Footer from "@/components/Footer";
+import FormSection from "@/components/FormSection";
+import HeroSection from "@/components/HeroSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
 import { RespaldoLegalBand, SociosEstrategicosBand } from "@/components/LegalTicker";
-import HowItWorksSection      from "@/components/HowItWorksSection";
-import ComparativoSection     from "@/components/ComparativoSection";
-import BenefitsSection        from "@/components/BenefitsSection";
-import SecuritySection        from "@/components/SecuritySection";
-import ProyectosSection       from "@/components/ProyectosSection";
-import TarjetasBanner         from "@/components/TarjetasBanner";
-import AppPreviewSection      from "@/components/AppPreviewSection";
-import SimuladorSection       from "@/components/SimuladorSection";
-import EquipoSection          from "@/components/EquipoSection";
-import TestimonialsSection    from "@/components/TestimonialsSection";
-import FAQSection             from "@/components/FAQSection";
-import FormSection            from "@/components/FormSection";
-import Footer                 from "@/components/Footer";
-import WhatsAppButton         from "@/components/WhatsAppButton";
-import StickyMobileCTA        from "@/components/StickyMobileCTA";
+import Navbar from "@/components/Navbar";
+import ProyectosSection from "@/components/ProyectosSection";
+import SimuladorSection from "@/components/SimuladorSection";
+import StatsSection from "@/components/StatsSection";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 /** Smooth gradient transition between two section background colors */
 function Wave({ from, to }: { from: string; to: string; flip?: boolean }) {
@@ -39,25 +34,21 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
-        <Wave from="#ffffff" to="#eef2f9" />
-        <VSLSection />
-        <Wave from="#eef2f9" to="#ffffff" flip />
         <StatsSection />
         <RespaldoLegalBand />
+        <Wave from="#ffffff" to="#eef2f9" />
         <HowItWorksSection />
-        <ComparativoSection />
-        <BenefitsSection />
+        <FormSection />
         <Wave from="#eef2f9" to="#ffffff" />
-        <SecuritySection />
+        <ComparativoSection />
+        <Wave from="#ffffff" to="#eef2f9" />
         <ProyectosSection />
         <SociosEstrategicosBand />
-        <TarjetasBanner />
         <AppPreviewSection />
         <SimuladorSection />
         <EquipoSection />
         <TestimonialsSection />
-        <FAQSection />
-        <FormSection />
+        {/* <FAQSection /> */}
       </main>
       <Footer />
       <WhatsAppButton />

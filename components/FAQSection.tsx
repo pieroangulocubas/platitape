@@ -1,6 +1,6 @@
-"use client";
-import { useState } from "react";
+﻿"use client";
 import { WA_CONTACT_URL } from "@/lib/config";
+import { useState } from "react";
 
 const faqs = [
   {
@@ -14,8 +14,8 @@ const faqs = [
     cat: "Riesgos",
   },
   {
-    q: "¿El 18% anual está garantizado?",
-    a: "El 18% es la rentabilidad estimada máxima basada en el historial de nuestros proyectos. La tasa real varía entre 10% y 18% según el proyecto y el plazo elegido. Como toda inversión, está sujeta a riesgos del mercado inmobiliario. Nunca prometemos rendimientos garantizados, pero sí transparencia total en cada paso.",
+    q: "¿El 16% anual está garantizado?",
+    a: "El 16% es la rentabilidad estimada máxima basada en el historial de nuestros proyectos. La tasa real varía entre 10% y 16% según el proyecto y el plazo elegido. Como toda inversión, está sujeta a riesgos del mercado inmobiliario. Nunca prometemos rendimientos garantizados, pero sí transparencia total en cada paso.",
     cat: "Rentabilidad",
   },
   {
@@ -70,7 +70,7 @@ export default function FAQSection() {
           >
             Preguntas frecuentes
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#0f0a2e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#1c0f4c" }}>
             Resolvemos tus{" "}
             <span className="gradient-text">dudas</span>
           </h2>
@@ -116,7 +116,7 @@ export default function FAQSection() {
                     </span>
                     <span
                       className="font-semibold text-sm leading-snug"
-                      style={{ color: isOpen ? "#0f0a2e" : "rgba(15,10,46,0.8)" }}
+                      style={{ color: isOpen ? "#1c0f4c" : "rgba(15,10,46,0.8)" }}
                     >
                       {faq.q}
                     </span>
@@ -164,7 +164,7 @@ export default function FAQSection() {
         {/* Bottom CTA */}
         <div className="text-center mt-12">
           <p className="text-sm mb-4" style={{ color: "rgba(15,10,46,0.45)" }}>
-            ¿Tienes más preguntas? Escríbenos directamente.
+            ¿Tienes más dudas? Escríbenos directamente.
           </p>
           <a
             href={WA_CONTACT_URL}

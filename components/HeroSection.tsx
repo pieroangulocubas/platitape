@@ -1,19 +1,19 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
+﻿"use client";
+import { useState } from "react";
 import Image from "next/image";
 import ToastNotifications from "./ToastNotifications";
 import { WA_CHANNEL_URL } from "@/lib/config";
 
-const ANNUAL_RATE = 0.18;
+const ANNUAL_RATE = 0.16;
 const MIN_AMOUNT  = 10000;
-const MAX_AMOUNT  = 100000;
+const MAX_AMOUNT  = 1000000;
 
 const PERIODS = [
   { months: 3,  label: "3m",  available: false },
   { months: 6,  label: "6m",  available: false },
   { months: 12, label: "12m", available: true  },
-  { months: 18, label: "18m", available: false },
-  { months: 24, label: "24m", available: false },
+  { months: 18, label: "18m", available: true  },
+  { months: 24, label: "24m", available: true  },
 ];
 
 function fmt(n: number) {
@@ -26,21 +26,6 @@ export default function HeroSection() {
   const [rawInput, setRawInput]      = useState("10000");
   const [months, setMonths]          = useState(12);
 
-  const imageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let raf: number;
-    const onScroll = () => {
-      raf = requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (imageRef.current)
-          imageRef.current.style.transform = `translateY(${y * 0.08}px)`;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
-  }, []);
-
   const earnings = amount * ANNUAL_RATE * (months / 12);
   const total    = amount + earnings;
   const roiPct   = ((earnings / amount) * 100).toFixed(1);
@@ -49,11 +34,19 @@ export default function HeroSection() {
     <>
     <section
       className="relative flex flex-col justify-center overflow-hidden"
-      style={{
-        background: "linear-gradient(118deg, #ffffff 0%, #ffffff 38%, #f5f3ff 68%, #ede8fc 100%)",
-        minHeight: "92vh",
-      }}
+      style={{ height: "calc(100vh - 64px)", marginTop: "64px" }}
     >
+      {/* ── Background image — oculta en móvil ── */}
+      <div className="absolute inset-0 hidden md:block">
+        <Image
+          src="/hero-bg.png"
+          alt=""
+          fill
+          priority
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </div>
+
       {/* ── Background ── */}
 
       {/* Dot grid — full width, subtle */}
@@ -99,19 +92,9 @@ export default function HeroSection() {
           opacity: 0.55,
         }}
       />
-      {/* Top-right accent line */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          right: 0, top: 0,
-          width: "45%",
-          height: "2px",
-          background: "linear-gradient(90deg, transparent, #6cdcff 40%, #bc45e9)",
-        }}
-      />
 
       {/* ── Main two-column layout ── */}
-      <div className="relative z-10 max-w-6xl mx-auto w-full px-5 pt-20 pb-0">
+      <div className="relative z-10 max-w-6xl mx-auto w-full px-5 py-8">
         <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0">
 
           {/* LEFT — text */}
@@ -135,16 +118,16 @@ export default function HeroSection() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-[4.25rem] font-black leading-[1.02] tracking-tight" style={{ color: "#080b1e" }}>
+            <h1 className="text-5xl md:text-6xl lg:text-[4.25rem] font-black leading-[1.02] tracking-tight" style={{ color: "#1c0f4c" }}>
               Invierte y gana
               <br />
-              <span className="gradient-text-cyan">hasta 18%</span>
+              <span className="gradient-text-cyan">hasta 16%</span>
               <br />
               <span style={{ color: "rgba(8,11,30,0.55)", fontWeight: 800 }}>de retorno anual</span>
             </h1>
 
             <p className="text-base md:text-lg leading-relaxed max-w-md" style={{ color: "rgba(8,11,30,0.54)" }}>
-              Invierte desde <strong style={{ color: "#080b1e" }}>S/10,000</strong> en proyectos
+              Invierte desde <strong style={{ color: "#1c0f4c" }}>S/10,000</strong> en proyectos
               inmobiliarios del Perú verificados. 100% online, sin trámites.
             </p>
 
@@ -211,106 +194,6 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — 3D llama (flipped, grande) + floating cards */}
-          <div
-            ref={imageRef}
-            className="flex-1 flex items-end justify-center relative will-change-transform"
-            style={{ minHeight: "520px" }}
-          >
-            {/* Glow behind llama */}
-            <div
-              className="absolute pointer-events-none"
-              style={{
-                bottom: "-5%",
-                left: "5%",
-                right: "0%",
-                height: "85%",
-                background: "radial-gradient(ellipse 70% 60% at 55% 80%, rgba(188,69,233,0.15) 0%, rgba(108,180,255,0.10) 55%, transparent 80%)",
-                filter: "blur(20px)",
-              }}
-            />
-
-            {/* Floating card — 18% rentabilidad (top-left of column) */}
-            <div
-              className="float-a hidden md:flex absolute items-center gap-3 pointer-events-none"
-              style={{
-                top: "8%", left: "0%", zIndex: 20,
-                background: "#ffffff",
-                border: "1px solid #d2dcea",
-                boxShadow: "0 4px 20px rgba(8,10,30,0.10)",
-                borderRadius: "10px",
-                padding: "10px 14px",
-                minWidth: "158px",
-              }}
-            >
-              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(188,69,233,0.08)", border: "1px solid rgba(188,69,233,0.20)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bc45e9" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
-                </svg>
-              </div>
-              <div>
-                <p style={{ color: "#bc45e9", fontWeight: 900, fontSize: "1.1rem", lineHeight: 1, margin: 0 }}>18%</p>
-                <p style={{ color: "rgba(8,11,30,0.42)", fontSize: "0.62rem", fontWeight: 600, margin: "2px 0 0", whiteSpace: "nowrap" }}>Rentabilidad anual</p>
-              </div>
-            </div>
-
-            {/* Floating card — S/10K mínimo (mid-right) */}
-            <div
-              className="float-b hidden md:flex absolute items-center gap-3 pointer-events-none"
-              style={{
-                top: "38%", right: "-2%", zIndex: 20,
-                background: "#ffffff",
-                border: "1px solid #d2dcea",
-                boxShadow: "0 4px 20px rgba(8,10,30,0.10)",
-                borderRadius: "10px",
-                padding: "10px 14px",
-                minWidth: "148px",
-              }}
-            >
-              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(108,180,255,0.10)", border: "1px solid rgba(108,180,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0080c9" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="8" cy="8" r="6" /><path d="M18.09 10.37A6 6 0 1 1 10.34 18" />
-                </svg>
-              </div>
-              <div>
-                <p style={{ color: "#080b1e", fontWeight: 900, fontSize: "1rem", lineHeight: 1, margin: 0 }}>S/ 10,000</p>
-                <p style={{ color: "rgba(8,11,30,0.42)", fontSize: "0.62rem", fontWeight: 600, margin: "2px 0 0", whiteSpace: "nowrap" }}>Inversión mínima</p>
-              </div>
-            </div>
-
-            {/* Floating card — 100% legal (bottom-left) */}
-            <div
-              className="float-c hidden lg:flex absolute items-center gap-3 pointer-events-none"
-              style={{
-                bottom: "28%", left: "1%", zIndex: 20,
-                background: "#ffffff",
-                border: "1px solid #d2dcea",
-                boxShadow: "0 4px 20px rgba(8,10,30,0.10)",
-                borderRadius: "10px",
-                padding: "10px 14px",
-              }}
-            >
-              <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(108,180,255,0.10)", border: "1px solid rgba(108,180,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0080c9" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" />
-                </svg>
-              </div>
-              <div>
-                <p style={{ color: "#080b1e", fontWeight: 900, fontSize: "0.88rem", lineHeight: 1, margin: 0 }}>100% legal</p>
-                <p style={{ color: "rgba(8,11,30,0.42)", fontSize: "0.62rem", fontWeight: 600, margin: "2px 0 0", whiteSpace: "nowrap" }}>Contratos notariales</p>
-              </div>
-            </div>
-
-            <Image
-              src="/llama-3d.svg"
-              alt="Invierte con Platita.pe"
-              width={700}
-              height={700}
-              className="relative z-10 w-full max-w-85 md:max-w-120 lg:max-w-135"
-              priority
-              style={{ transform: "scaleX(-1)" }}
-            />
-          </div>
         </div>
       </div>
     </section>
@@ -338,15 +221,15 @@ export default function HeroSection() {
 
       <div className="flex items-center justify-between p-5 pb-0">
         <div>
-          <p className="font-black text-lg" style={{ color: "#080b1e" }}>Simulador de inversión</p>
-          <p className="text-xs font-medium" style={{ color: "rgba(8,11,30,0.45)" }}>Estimación al 18% anual</p>
+          <p className="font-black text-lg" style={{ color: "#1c0f4c" }}>Simulador de inversión</p>
+          <p className="text-xs font-medium" style={{ color: "rgba(8,11,30,0.45)" }}>Estimación al 16% anual</p>
         </div>
         <button
           onClick={() => setShowSim(false)}
           className="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:scale-110"
           style={{ background: "rgba(12,18,55,0.06)", border: "1px solid rgba(12,18,55,0.10)" }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#080b1e" strokeWidth="2.5" strokeLinecap="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2.5" strokeLinecap="round">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
@@ -440,7 +323,7 @@ export default function HeroSection() {
           <div className="space-y-3.5 pt-1">
             <div className="flex justify-between items-center">
               <span className="text-sm" style={{ color: "rgba(8,11,30,0.45)" }}>Tu inversión</span>
-              <span key={`inv-${amount}`} className="text-xl font-black sim-result-value" style={{ color: "#080b1e" }}>S/ {fmt(amount)}</span>
+              <span key={`inv-${amount}`} className="text-xl font-black sim-result-value" style={{ color: "#1c0f4c" }}>S/ {fmt(amount)}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm font-semibold" style={{ color: "#bc45e9" }}>Ganancia estimada</span>
@@ -451,8 +334,8 @@ export default function HeroSection() {
             </div>
             <div className="h-px" style={{ background: "#e8eef6" }} />
             <div className="flex justify-between items-center">
-              <span className="text-sm font-bold" style={{ color: "#080b1e" }}>Total al final</span>
-              <span key={`total-${amount}-${months}`} className="text-2xl font-black sim-result-value" style={{ color: "#080b1e" }}>S/ {fmt(total)}</span>
+              <span className="text-sm font-bold" style={{ color: "#1c0f4c" }}>Total al final</span>
+              <span key={`total-${amount}-${months}`} className="text-2xl font-black sim-result-value" style={{ color: "#1c0f4c" }}>S/ {fmt(total)}</span>
             </div>
           </div>
         </div>
@@ -463,7 +346,7 @@ export default function HeroSection() {
             <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
           <p className="text-xs" style={{ color: "rgba(8,11,30,0.42)" }}>
-            Proyección referencial al 18% anual. Las inversiones están sujetas a riesgo.
+            Proyección referencial al 16% anual. Respaldo legal: Contrato mutuo.
           </p>
         </div>
 
@@ -483,7 +366,7 @@ export default function HeroSection() {
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold" style={{ color: "#080b1e" }}>Únete a nuestro canal</p>
+            <p className="text-sm font-bold" style={{ color: "#1c0f4c" }}>Únete a nuestro canal</p>
             <p className="text-xs" style={{ color: "rgba(8,11,30,0.42)" }}>Ofertas exclusivas antes del lanzamiento</p>
           </div>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(8,11,30,0.30)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

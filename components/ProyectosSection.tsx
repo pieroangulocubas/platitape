@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ProyectosSection — cards with real-estate visual headers (CSS renders)
  * Each card has a "project image" built with gradients + a building SVG,
  * mimicking architectural renders until real photography is added.
@@ -14,6 +14,7 @@ interface Project {
   funded: number;
   tag: string;
   tagColor: string;
+  href: string;
   /** Sky gradient for the card image area */
   skyFrom: string;
   skyTo: string;
@@ -23,57 +24,61 @@ interface Project {
 
 const projects: Project[] = [
   {
-    name: "Torre Miraflores 360",
-    location: "Miraflores, Lima",
-    type: "Residencial premium",
-    roi: "20%",
+    name: "Habilitaciones urbanas",
+    location: "Jaén, Cajamarca",
+    type: "Lotización",
+    roi: "16%",
     plazo: "12 meses",
-    min: "S/ 1,000",
-    funded: 78,
-    tag: "En financiamiento",
-    tagColor: "#22d3ee",
-    skyFrom: "#0a1e3d",
-    skyTo: "#1a3a5c",
-    buildingColor: "#d4af87",
+    min: "S/ 10,000",
+    funded: 60,
+    tag: "Casi lleno",
+    tagColor: "#ec4899",
+    href: "https://bercorprealestate.com.pe/proyectos/",
+    skyFrom: "#1a0a14",
+    skyTo: "#2e1020",
+    buildingColor: "#f4a0c0",
   },
   {
-    name: "Condominio Los Olivos",
-    location: "Los Olivos, Lima",
-    type: "Multifamiliar",
-    roi: "18%",
-    plazo: "18 meses",
+    name: "Subastas de propiedades",
+    location: "Bellavista, Cajamarca",
+    type: "Subasta inmobiliaria",
+    roi: "16%",
+    plazo: "12 meses",
     min: "S/ 10,000",
-    funded: 45,
-    tag: "Próximamente",
+    funded: 20,
+    tag: "Nuevo",
+    tagColor: "#22d3ee",
+    href: "#registro",
+    skyFrom: "#0a1e3d",
+    skyTo: "#1a3a5c",
+    buildingColor: "#6cdcff",
+  },
+  {
+    name: "Construcción",
+    location: "Jaén, Cajamarca",
+    type: "Proyecto constructivo",
+    roi: "16%",
+    plazo: "12 meses",
+    min: "S/ 10,000",
+    funded: 50,
+    tag: "En financiamiento",
     tagColor: "#a78bfa",
+    href: "#registro",
     skyFrom: "#1a0a2e",
     skyTo: "#2d1a5c",
     buildingColor: "#c8b8e8",
   },
   {
-    name: "Viva San Isidro",
-    location: "San Isidro, Lima",
-    type: "Oficinas corporativas",
-    roi: "18%",
+    name: "Compra de inmuebles",
+    location: "Lima, Perú",
+    type: "Adquisición inmobiliaria",
+    roi: "16%",
     plazo: "12 meses",
-    min: "S/ 2,000",
-    funded: 92,
-    tag: "Casi lleno",
-    tagColor: "#ec4899",
-    skyFrom: "#0a1a10",
-    skyTo: "#1a3a20",
-    buildingColor: "#a8d5b0",
-  },
-  {
-    name: "Parque Surco Verde",
-    location: "Santiago de Surco, Lima",
-    type: "Ecodesarrollo mixto",
-    roi: "19%",
-    plazo: "24 meses",
     min: "S/ 10,000",
     funded: 30,
-    tag: "Nuevo",
+    tag: "Próximamente",
     tagColor: "#f97316",
+    href: "#registro",
     skyFrom: "#1a1200",
     skyTo: "#3a2a00",
     buildingColor: "#f5d58a",
@@ -238,7 +243,7 @@ function ProjectCard({ p }: { p: Project }) {
       <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px", flex: 1 }}>
         {/* Title & location */}
         <div>
-          <h3 style={{ color: "#0f0a2e", fontWeight: 800, fontSize: "1rem", margin: 0, lineHeight: 1.3 }}>
+          <h3 style={{ color: "#1c0f4c", fontWeight: 800, fontSize: "1rem", margin: 0, lineHeight: 1.3 }}>
             {p.name}
           </h3>
           <p style={{ color: "rgba(15,10,46,0.45)", fontSize: "0.75rem", margin: "4px 0 0", fontWeight: 500 }}>
@@ -265,7 +270,7 @@ function ProjectCard({ p }: { p: Project }) {
               <p style={{ color: "rgba(15,10,46,0.4)", fontSize: "0.6rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>
                 {s.label}
               </p>
-              <p style={{ color: "#0f0a2e", fontWeight: 700, fontSize: "0.8rem", margin: "2px 0 0" }}>
+              <p style={{ color: "#1c0f4c", fontWeight: 700, fontSize: "0.8rem", margin: "2px 0 0" }}>
                 {s.value}
               </p>
             </div>
@@ -297,7 +302,9 @@ function ProjectCard({ p }: { p: Project }) {
 
         {/* CTA */}
         <a
-          href="#registro"
+          href={p.href}
+          target={p.href.startsWith("http") ? "_blank" : undefined}
+          rel={p.href.startsWith("http") ? "noopener noreferrer" : undefined}
           style={{
             display: "block",
             textAlign: "center",
@@ -332,7 +339,7 @@ export default function ProyectosSection() {
           >
             Oportunidades
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#0f0a2e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#1c0f4c" }}>
             Proyectos{" "}
             <span className="gradient-text">disponibles</span>
           </h2>

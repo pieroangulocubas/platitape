@@ -1,5 +1,8 @@
-import { ReactNode } from "react";
+﻿"use client";
+import Image from "next/image";
+import { ReactNode, useRef, useState } from "react";
 
+/* ── icons ── */
 const IconUserCheck = ({ c }: { c: string }) => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -26,13 +29,21 @@ const IconAward = ({ c }: { c: string }) => (
     <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
   </svg>
 );
+const IconFileSign = ({ c }: { c: string }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <path d="M8 17h3l1.5-1.5L14 17h2" />
+  </svg>
+);
 
 interface Step {
   number: string;
   icon: ReactNode;
   title: string;
   description: string;
-  color: string;
+  highlight?: boolean;
 }
 
 const steps: Step[] = [
@@ -41,55 +52,123 @@ const steps: Step[] = [
     icon: <IconUserCheck c="#1c0f4c" />,
     title: "Regístrate gratis",
     description: "Completa tu perfil en minutos. Sin costos de apertura ni comisiones ocultas. Tu cuenta está lista al instante.",
-    color: "#1c0f4c",
   },
   {
     number: "02",
-    icon: <IconBuilding c="#bc45e9" />,
-    title: "Elige tu proyecto",
-    description: "Explora proyectos inmobiliarios curados y verificados. Selecciona según tus metas y el capital que deseas invertir.",
-    color: "#bc45e9",
+    icon: <IconArrowUpCircle c="#bc45e9" />,
+    title: "Invierte desde S/10,000",
+    description: "Realiza tu inversión de forma segura y 100% online.",
   },
   {
     number: "03",
-    icon: <IconArrowUpCircle c="#6cdcff" />,
-    title: "Invierte desde S/10,000",
-    description: "Realiza tu inversión de forma segura y 100% online. Monitorea tu portafolio y rentabilidad en tiempo real.",
-    color: "#6cdcff",
+    icon: <IconFileSign c="#ffffff" />,
+    title: "Firma de contrato notarial",
+    description: "Firma virtual de contrato mutuo y validación notarial. En 2 días hábiles tienes tu documento digitalizado.",
+    highlight: true,
   },
   {
     number: "04",
     icon: <IconAward c="#1c0f4c" />,
     title: "Recibe tus ganancias",
     description: "Cobra tus rendimientos de acuerdo al período elegido. Reinvierte o retira a tu cuenta bancaria sin complicaciones.",
-    color: "#1c0f4c",
   },
 ];
 
 export default function HowItWorksSection() {
+  const [active, setActive] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   return (
     <section id="como-funciona" className="py-24 px-4" style={{ background: "#eef2f9" }}>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
+
+        {/* ── Header ── */}
+        <div className="text-center mb-12">
           <span
             className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
             style={{ background: "rgba(28,15,76,0.07)", border: "1px solid rgba(28,15,76,0.14)", color: "#1c0f4c" }}
           >
             Proceso simple
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#0f0a2e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-5 mb-4" style={{ color: "#1c0f4c" }}>
             ¿Cómo{" "}
             <span className="gradient-text">funciona?</span>
           </h2>
           <p className="text-lg max-w-xl mx-auto" style={{ color: "rgba(15,10,46,0.5)" }}>
-            4 pasos para que tu dinero trabaje por ti en el sector inmobiliario peruano
+            Míralo en 1:23 min y luego sigue los 4 pasos para que tu dinero trabaje por ti
           </p>
         </div>
 
-        {/* Steps */}
+        {/* ── VSL Video ── */}
+        <div className="max-w-3xl mx-auto mb-6">
+          <div
+            className="rounded-3xl overflow-hidden relative"
+            style={{
+              aspectRatio: "16/9",
+              background: "#1c0f4c",
+              boxShadow: "0 24px 80px rgba(28,15,76,0.16), 0 4px 20px rgba(28,15,76,0.08)",
+              border: "1px solid rgba(28,15,76,0.08)",
+            }}
+          >
+            <video
+              ref={videoRef}
+              src="/platita-vsl.mp4"
+              controls
+              playsInline
+              className="absolute inset-0 w-full h-full"
+              style={{ display: active ? "block" : "none" }}
+            />
+
+            {!active && (
+              <div
+                className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                onClick={() => { setActive(true); setTimeout(() => videoRef.current?.play(), 50); }}
+              >
+                {/* Thumbnail image — sin overlay, máxima nitidez */}
+                <Image
+                  src="/miniatura-vsl.png"
+                  alt="Video Platita.pe"
+                  fill
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                  quality={100}
+                />
+                {/* Solo el botón play centrado */}
+                <button className="play-btn relative z-10">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28" style={{ marginLeft: "4px" }}>
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Trust strip ── */}
+        <div className="flex flex-wrap justify-center gap-6 mb-16">
+          {[
+            { icon: "🔒", text: "Inversión respaldada en activos reales" },
+            { icon: "📋", text: "Contratos legales notariales" },
+            { icon: "🇵🇪", text: "Proyectos verificados en Perú" },
+          ].map((b) => (
+            <div key={b.text} className="flex items-center gap-2 text-sm" style={{ color: "rgba(15,10,46,0.52)" }}>
+              <span>{b.icon}</span>
+              <span>{b.text}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Divider label ── */}
+        <div className="flex items-center gap-4 mb-10 max-w-3xl mx-auto">
+          <div className="flex-1 h-px" style={{ background: "rgba(28,15,76,0.12)" }} />
+          <span className="text-xs font-bold tracking-widest uppercase" style={{ color: "rgba(28,15,76,0.38)" }}>
+            4 pasos para empezar
+          </span>
+          <div className="flex-1 h-px" style={{ background: "rgba(28,15,76,0.12)" }} />
+        </div>
+
+        {/* ── Steps ── */}
         <div className="relative">
-          {/* Connector line — desktop only, sits behind cards in the gap */}
+          {/* Connector line — desktop only */}
           <div
             className="hidden lg:block absolute"
             style={{
@@ -105,44 +184,71 @@ export default function HowItWorksSection() {
           />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative" style={{ zIndex: 1 }}>
             {steps.map((step, i) => (
-              <div
-                key={i}
-                className="rounded-3xl p-7 flex flex-col gap-4 group hover:-translate-y-2 transition-all duration-300"
-                style={{
-                  background: "#ffffff",
-                  border: "1px solid #e6e3f5",
-                  boxShadow: "0 1px 4px rgba(28,15,76,0.06), 0 4px 20px rgba(28,15,76,0.04)",
-                }}
-              >
-                <div className="step-number">{step.number}</div>
-
+              step.highlight ? (
                 <div
-                  className="w-11 h-11 rounded-2xl flex items-center justify-center"
+                  key={i}
+                  className="rounded-3xl p-7 flex flex-col gap-4 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
                   style={{
-                    background: "rgba(28,15,76,0.06)",
-                    border: "1px solid rgba(28,15,76,0.1)",
+                    background: "linear-gradient(135deg, #1c0f4c 0%, #6b1fa8 55%, #bc45e9 100%)",
+                    border: "1px solid rgba(188,69,233,0.4)",
+                    boxShadow: "0 8px 40px rgba(188,69,233,0.28), 0 2px 12px rgba(28,15,76,0.18)",
                   }}
                 >
-                  {step.icon}
+                  {/* subtle inner glow */}
+                  <div className="absolute inset-0 pointer-events-none" style={{
+                    background: "radial-gradient(ellipse at 70% 20%, rgba(108,220,255,0.15) 0%, transparent 65%)",
+                  }} />
+                  <div className="step-number relative z-10" style={{ color: "rgba(255,255,255,0.35)" }}>{step.number}</div>
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center relative z-10"
+                    style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.22)" }}
+                  >
+                    {step.icon}
+                  </div>
+                  <div className="relative z-10">
+                    <h3 className="font-bold text-lg mb-2 text-white">{step.title}</h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.68)" }}>
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
-
-                <div>
-                  <h3 className="font-bold text-lg mb-2" style={{ color: "#0f0a2e" }}>{step.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(15,10,46,0.5)" }}>
-                    {step.description}
-                  </p>
+              ) : (
+                <div
+                  key={i}
+                  className="rounded-3xl p-7 flex flex-col gap-4 group hover:-translate-y-2 transition-all duration-300"
+                  style={{
+                    background: "#ffffff",
+                    border: "1px solid #e6e3f5",
+                    boxShadow: "0 1px 4px rgba(28,15,76,0.06), 0 4px 20px rgba(28,15,76,0.04)",
+                  }}
+                >
+                  <div className="step-number">{step.number}</div>
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center"
+                    style={{ background: "rgba(28,15,76,0.06)", border: "1px solid rgba(28,15,76,0.1)" }}
+                  >
+                    {step.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2" style={{ color: "#1c0f4c" }}>{step.title}</h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "rgba(15,10,46,0.5)" }}>
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )
             ))}
           </div>
         </div>
 
+        {/* ── CTA ── */}
         <div className="text-center mt-12">
           <a href="#registro" className="btn-gradient inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold">
             <span>Empezar ahora</span>
             <span>→</span>
           </a>
         </div>
+
       </div>
     </section>
   );

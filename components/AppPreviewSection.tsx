@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
+import Image from "next/image";
 /** App Preview — phone mockup centrado, dominante, con toasts flotantes descriptivos */
 
 const portfolio = [
   { name: "Torre Miraflores 360", roi: "+20%", amount: "S/1,000", progress: 78, color: "#22d3ee" },
-  { name: "Viva San Isidro",      roi: "+18%", amount: "S/2,000", progress: 92, color: "#a78bfa" },
+  { name: "Viva San Isidro",      roi: "+16%", amount: "S/2,000", progress: 92, color: "#a78bfa" },
 ];
 
 function PhoneMockup() {
@@ -121,7 +122,7 @@ function Toast({ icon, title, desc, accent, floatClass, style }: ToastProps) {
           >
             {icon}
           </div>
-          <p style={{ color: "#080b1e", fontWeight: 700, fontSize: "0.72rem", lineHeight: 1.2 }}>{title}</p>
+          <p style={{ color: "#1c0f4c", fontWeight: 700, fontSize: "0.72rem", lineHeight: 1.2 }}>{title}</p>
         </div>
         <p style={{ color: "rgba(8,11,30,0.48)", fontSize: "0.63rem", lineHeight: 1.4, margin: 0 }}>{desc}</p>
       </div>
@@ -143,12 +144,12 @@ export default function AppPreviewSection() {
             La plataforma
           </span>
           <span
-            className="text-xs font-medium px-3 py-1 rounded-full inline-block ml-2"
-            style={{ background: "rgba(108,220,255,0.10)", border: "1px solid rgba(108,220,255,0.25)", color: "rgba(15,10,46,0.45)" }}
+            className="text-xs font-bold px-3 py-1 rounded-full inline-block ml-2"
+            style={{ background: "rgba(188,69,233,0.10)", border: "1px solid rgba(188,69,233,0.28)", color: "#bc45e9" }}
           >
-            Vista previa — app en desarrollo
+            Próximamente
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#080b1e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#1c0f4c" }}>
             Todo en la palma{" "}
             <span className="gradient-text">de tu mano</span>
           </h2>
@@ -247,7 +248,7 @@ export default function AppPreviewSection() {
             desc="Cada inversión respaldada con contrato legal verificado"
           />
 
-          {/* Phone — centro y dominante */}
+          {/* Phone mockup image — centro y dominante */}
           <div className="relative z-10">
             {/* Shadow bajo el teléfono */}
             <div
@@ -256,14 +257,20 @@ export default function AppPreviewSection() {
                 bottom: "-32px",
                 left: "50%",
                 transform: "translateX(-50%)",
-                width: "160px",
+                width: "200px",
                 height: "40px",
-                background: "radial-gradient(ellipse, rgba(28,15,76,0.25), transparent 70%)",
-                filter: "blur(14px)",
+                background: "radial-gradient(ellipse, rgba(28,15,76,0.28), transparent 70%)",
+                filter: "blur(16px)",
                 pointerEvents: "none",
               }}
             />
-            <PhoneMockup />
+            <Image
+              src="/app-mockup.png"
+              alt="Platita.pe App"
+              width={280}
+              height={560}
+              style={{ objectFit: "contain", display: "block", mixBlendMode: "multiply" }}
+            />
           </div>
         </div>
 

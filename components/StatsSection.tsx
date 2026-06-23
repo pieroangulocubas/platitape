@@ -46,7 +46,7 @@ function useCountUp(end: number, duration: number, trigger: boolean) {
 }
 
 const stats = [
-  { raw: 18,  prefix: "",   suffix: "%", label: "Rentabilidad anual",  icon: <IconPercent c="#bc45e9" />, accent: "#bc45e9", delay: 0    },
+  { raw: 16,  prefix: "",   suffix: "%", label: "Rentabilidad anual",  icon: <IconPercent c="#bc45e9" />, accent: "#bc45e9", delay: 0    },
   { raw: 10,  prefix: "S/", suffix: "K", label: "Inversión mínima",    icon: <IconCoins   c="#6cdcff" />, accent: "#6cdcff", delay: 120  },
   { raw: 500, prefix: "+",  suffix: "",  label: "En lista de espera",  icon: <IconUsers   c="#bc45e9" />, accent: "#bc45e9", delay: 240  },
   { raw: 100, prefix: "",   suffix: "%", label: "Proceso 100% online", icon: <IconShield  c="#6cdcff" />, accent: "#6cdcff", delay: 360  },

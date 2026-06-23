@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+﻿import { ReactNode } from "react";
 
 const IconTrendingUp = ({ c }: { c: string }) => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -51,9 +51,9 @@ const benefits: Benefit[] = [
   {
     icon: <IconTrendingUp c="#1c0f4c" />,
     title: "Alta rentabilidad",
-    description: "Obtén del 10% al 18% anual, muy por encima de un depósito bancario tradicional o de la inflación.",
+    description: "Obtén del 10% al 16% anual, muy por encima de un depósito bancario tradicional o de la inflación.",
     accent: "#1c0f4c",
-    tag: "Hasta 18% anual",
+    tag: "Hasta 16% anual",
   },
   {
     icon: <IconCoins c="#bc45e9" />,
@@ -104,7 +104,7 @@ export default function BenefitsSection() {
           >
             Por qué Platita
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#080b1e" }}>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-3" style={{ color: "#1c0f4c" }}>
             La forma más inteligente de{" "}
             <span className="gradient-text">invertir en el Perú</span>
           </h2>
@@ -150,7 +150,7 @@ export default function BenefitsSection() {
 
               {/* Content */}
               <div>
-                <h3 className="font-bold text-lg mb-1.5" style={{ color: "#080b1e" }}>{b.title}</h3>
+                <h3 className="font-bold text-lg mb-1.5" style={{ color: "#1c0f4c" }}>{b.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: "rgba(8,11,30,0.50)" }}>
                   {b.description}
                 </p>

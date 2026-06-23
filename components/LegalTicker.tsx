@@ -7,14 +7,10 @@
  */
 
 const PUBLIC_ENTITIES = [
-  "SBS · Superintendencia de Banca y Seguros",
-  "SMV · Superintendencia del Mercado de Valores",
-  "SUNARP · Registros Públicos",
-  "MEF · Ministerio de Economía y Finanzas",
-  "PRODUCE · Ministerio de la Producción",
-  "SUNAT · Administración Tributaria",
   "INDECOPI · Propiedad Intelectual",
-  "PCM · Presidencia del Consejo de Ministros",
+  "SUNARP · Registros Públicos",
+  "SUNAT · Administración Tributaria",
+  "NOTARIAL · Contrato Mutuo",
 ];
 
 const PRIVATE_PARTNERS = [
@@ -23,9 +19,6 @@ const PRIVATE_PARTNERS = [
   "BBVA Perú · BBVA Continental",
   "Credicorp · Grupo Financiero",
   "Notarías del Perú · Colegio de Notarios",
-  "ASEI · Empresas Inmobiliarias del Perú",
-  "Capeco · Cámara Peruana de la Construcción",
-  "Proptech Latam · Red de Startups Inmobiliarias",
 ];
 
 function MarqueeRow({

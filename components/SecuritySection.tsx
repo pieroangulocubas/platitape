@@ -1,4 +1,4 @@
-import { WA_CONTACT_URL } from "@/lib/config";
+﻿import { WA_CONTACT_URL } from "@/lib/config";
 
 const pillars = [
   {
@@ -49,7 +49,7 @@ export default function SecuritySection() {
             >
               Tu protección
             </span>
-            <h2 className="text-4xl md:text-5xl font-black leading-tight" style={{ color: "#0f0a2e" }}>
+            <h2 className="text-4xl md:text-5xl font-black leading-tight" style={{ color: "#1c0f4c" }}>
               Tu inversión está{" "}
               <span className="gradient-text">protegida</span>
             </h2>
@@ -70,7 +70,7 @@ export default function SecuritySection() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className="font-bold text-base" style={{ color: "#0f0a2e" }}>{p.title}</span>
+                    <span className="font-bold text-base" style={{ color: "#1c0f4c" }}>{p.title}</span>
                     <span
                       className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded"
                       style={{
@@ -104,7 +104,7 @@ export default function SecuritySection() {
           }}
         >
           <div className="flex-1 text-center md:text-left">
-            <p className="font-black text-xl mb-1" style={{ color: "#0f0a2e" }}>
+            <p className="font-black text-xl mb-1" style={{ color: "#1c0f4c" }}>
               ¿Aún tienes dudas sobre la seguridad?
             </p>
             <p className="text-sm" style={{ color: "rgba(15,10,46,0.52)" }}>

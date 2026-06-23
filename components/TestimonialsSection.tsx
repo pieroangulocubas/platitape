@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 
 const testimonials = [
@@ -7,7 +7,7 @@ const testimonials = [
     name: "Jorge Paredes",
     city: "Miraflores, Lima",
     role: "Ingeniero de Software",
-    planAmount: "S/ 5,000",
+    planAmount: "S/ 15,000",
     quote: "Llevo años buscando una alternativa real a los depósitos bancarios. Con Platita.pe podré invertir en bienes raíces desde el celular, sin necesitar cientos de miles de soles.",
     gradient: "linear-gradient(135deg,#22d3ee,#8b5cf6)",
     accent: "#bc45e9",
@@ -18,7 +18,7 @@ const testimonials = [
     name: "Valeria Soto",
     city: "Arequipa",
     role: "Médico residente",
-    planAmount: "S/ 1,500",
+    planAmount: "S/ 12,000",
     quote: "Nunca pensé que podría invertir en inmuebles con mi sueldo. Platita.pe democratiza algo que siempre fue solo para los que ya tienen plata. Me apunté al instante.",
     gradient: "linear-gradient(135deg,#8b5cf6,#ec4899)",
     accent: "#8b5cf6",
@@ -29,8 +29,8 @@ const testimonials = [
     name: "Carlos Meza",
     city: "San Isidro, Lima",
     role: "Contador independiente",
-    planAmount: "S/ 10,000",
-    quote: "Como contador conozco bien las tasas bancarias. Un 18% anual respaldado por activos inmobiliarios reales es exactamente lo que mis clientes y yo necesitábamos.",
+    planAmount: "S/ 20,000",
+    quote: "Como contador conozco bien las tasas bancarias. Un 16% anual respaldado por activos inmobiliarios reales es exactamente lo que mis clientes y yo necesitábamos.",
     gradient: "linear-gradient(135deg,#22d3ee,#06b6d4)",
     accent: "#6cdcff",
     accentRgb: "108,220,255",
@@ -40,7 +40,7 @@ const testimonials = [
     name: "Lucía Ríos",
     city: "Trujillo",
     role: "Empresaria",
-    planAmount: "S/ 3,000",
+    planAmount: "S/ 10,000",
     quote: "En Trujillo las opciones de inversión formal son limitadas. Platita.pe abre el acceso a proyectos de Lima y del país entero desde donde estés. Eso cambia todo.",
     gradient: "linear-gradient(135deg,#ec4899,#f97316)",
     accent: "#ec4899",
@@ -48,12 +48,6 @@ const testimonials = [
   },
 ];
 
-const REASONS = [
-  { value: "+500",  label: "Ya en lista de espera",       color: "#bc45e9" },
-  { value: "18%",   label: "Rentabilidad anual estimada", color: "#6cdcff" },
-  { value: "S/10K", label: "Inversión mínima",            color: "#bc45e9" },
-  { value: "0",     label: "Comisiones de entrada",       color: "#6cdcff" },
-];
 
 const SLIDE_DURATION = 4500;
 
@@ -103,7 +97,7 @@ export default function TestimonialsSection() {
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "56px" }}>
-          <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 900, color: "#0f0a2e", margin: "0 0 12px", lineHeight: 1.15 }}>
+          <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 900, color: "#1c0f4c", margin: "0 0 12px", lineHeight: 1.15 }}>
             Lo que dicen los{" "}
             <span className="gradient-text">primeros en unirse</span>
           </h2>
@@ -146,7 +140,7 @@ export default function TestimonialsSection() {
                   {t.initials}
                 </div>
                 <div>
-                  <p style={{ color: "#0f0a2e", fontWeight: 700, fontSize: "0.9rem", margin: 0 }}>{t.name}</p>
+                  <p style={{ color: "#1c0f4c", fontWeight: 700, fontSize: "0.9rem", margin: 0 }}>{t.name}</p>
                   <p style={{ color: "rgba(15,10,46,0.42)", fontSize: "0.75rem", margin: "2px 0 0" }}>{t.role} · {t.city}</p>
                 </div>
               </div>
@@ -191,22 +185,6 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-14">
-          {REASONS.map((r, i) => (
-            <div
-              key={i}
-              style={{ textAlign: "center", padding: "20px 12px", borderRadius: "16px", background: "#ffffff", border: "1.5px solid #d2dcea", boxShadow: "0 2px 12px rgba(28,15,76,0.05)" }}
-            >
-              <p style={{ fontSize: "2rem", fontWeight: 900, margin: "0 0 4px", color: r.color }}>
-                {r.value}
-              </p>
-              <p style={{ color: "rgba(15,10,46,0.45)", fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", margin: 0 }}>
-                {r.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
