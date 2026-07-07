@@ -1,9 +1,10 @@
 ﻿"use client";
 import { useState } from "react";
 
-const ANNUAL_RATE = 0.16;
-const MIN_AMOUNT  = 10000;
-const MAX_AMOUNT  = 1000000;
+const ANNUAL_RATE  = 0.16;
+const MONTHLY_RATE = 0.013;
+const MIN_AMOUNT   = 10000;
+const MAX_AMOUNT   = 1000000;
 
 const periods = [
   { months: 3,  label: "3 meses",  available: false },
@@ -46,14 +47,19 @@ export default function SimuladorSection() {
   const earnings        = amount * ANNUAL_RATE * (months / 12);
   const total           = amount + earnings;
   const roiPct          = ((earnings / amount) * 100).toFixed(1);
-  const monthlyEarnings = amount * ANNUAL_RATE / 12;
+  const monthlyEarnings = amount * MONTHLY_RATE;
   const barWidth        = Math.min(100, (months / 24) * 100);
 
   return (
     <section
       id="simulador"
-      className="py-28 px-4 relative overflow-hidden"
-      style={{ background: "#eef2f9" }}
+      className="py-14 md:py-28 px-4 relative overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(ellipse 70% 60% at 15% 10%, rgba(108,220,255,0.10) 0%, transparent 55%), " +
+          "radial-gradient(ellipse 70% 60% at 85% 90%, rgba(188,69,233,0.09) 0%, transparent 55%), " +
+          "#ffffff",
+      }}
     >
       {/* Decorative "16%" flotante */}
       <div
@@ -76,8 +82,8 @@ export default function SimuladorSection() {
         {/* Header */}
         <div className="text-center mb-14">
           <span
-            className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-            style={{ background: "rgba(28,15,76,0.07)", border: "1px solid rgba(28,15,76,0.14)", color: "#1c0f4c" }}
+            className="text-xs font-bold tracking-widest uppercase"
+            style={{ color: "#1c0f4c" }}
           >
             Simulador de inversión
           </span>

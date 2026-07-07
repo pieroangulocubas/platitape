@@ -132,7 +132,7 @@ export default function SecuritySection() {
               href="#registro"
               className="btn-gradient inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold"
             >
-              Quiero invertir →
+              <span>Quiero invertir →</span>
             </a>
           </div>
         </div>

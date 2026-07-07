@@ -1,10 +1,11 @@
 import Image from "next/image";
+import { navLinks } from "@/lib/navLinks";
 
 export default function Footer() {
   return (
     <footer
       className="relative pt-16 pb-10 px-4 border-t overflow-hidden"
-      style={{ borderColor: "rgba(28,15,76,0.10)", background: "#e3eaf5" }}
+      style={{ borderColor: "rgba(28,15,76,0.10)", background: "#ffffff" }}
     >
       {/* Llama decorativa fondo */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -37,16 +38,22 @@ export default function Footer() {
               alt="Platita.pe"
               width={150}
               height={44}
-              className="h-10 w-auto object-contain"
+              style={{ height: "40px", width: "auto", objectFit: "contain" }}
             />
           </a>
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6 text-sm" style={{ color: "rgba(15,10,46,0.50)" }}>
-            <a href="#como-funciona" style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">¿Cómo funciona?</a>
-            <a href="#beneficios"    style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">Beneficios</a>
-            <a href="#simulador"     style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">Simulador</a>
-            <a href="#registro"      style={{ color: "inherit" }} className="hover:opacity-80 transition-opacity">Registro</a>
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="footer-link"
+                style={{ color: "inherit" }}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
           {/* Legal */}

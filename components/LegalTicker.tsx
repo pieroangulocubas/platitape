@@ -111,7 +111,7 @@ export function SociosEstrategicosBand() {
       style={{
         borderTop: "1px solid rgba(28,15,76,0.08)",
         borderBottom: "1px solid rgba(28,15,76,0.08)",
-        background: "#eef2f9",
+        background: "#ffffff",
         padding: "12px 0",
         overflow: "hidden",
       }}

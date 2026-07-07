@@ -87,7 +87,7 @@ export default function TestimonialsSection() {
     <section
       id="testimonios"
       className="py-16 md:py-24 px-4 relative overflow-hidden"
-      style={{ background: "#eef2f9" }}
+      style={{ background: "#ffffff" }}
     >
       {/* Soft brand blob */}
       <div style={{ position: "absolute", top: "10%", right: "-8%", width: "380px", height: "380px", borderRadius: "50%", background: `rgba(${t.accentRgb},0.07)`, filter: "blur(80px)", transition: "background 0.6s ease", pointerEvents: "none" }} />

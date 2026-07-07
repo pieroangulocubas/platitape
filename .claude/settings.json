@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-Process node -ErrorAction SilentlyContinue)",
+      "Bash(netstat -ano)",
+      "Bash(/c/Users/piero/.claude/skills/gstack/browse/dist/browse js *)"
+    ]
+  }
+}

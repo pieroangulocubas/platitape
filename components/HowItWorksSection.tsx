@@ -79,14 +79,14 @@ export default function HowItWorksSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <section id="como-funciona" className="py-24 px-4" style={{ background: "#eef2f9" }}>
+    <section id="como-funciona" className="py-14 md:py-24 px-4" style={{ background: "#ffffff" }}>
       <div className="max-w-6xl mx-auto">
 
         {/* ── Header ── */}
         <div className="text-center mb-12">
           <span
-            className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-            style={{ background: "rgba(28,15,76,0.07)", border: "1px solid rgba(28,15,76,0.14)", color: "#1c0f4c" }}
+            className="text-xs font-bold tracking-widest uppercase"
+            style={{ color: "#1c0f4c" }}
           >
             Proceso simple
           </span>
@@ -102,12 +102,11 @@ export default function HowItWorksSection() {
         {/* ── VSL Video ── */}
         <div className="max-w-3xl mx-auto mb-6">
           <div
-            className="rounded-3xl overflow-hidden relative"
+            className={`rounded-3xl overflow-hidden relative ${!active ? "vsl-glow" : ""}`}
             style={{
               aspectRatio: "16/9",
               background: "#1c0f4c",
               boxShadow: "0 24px 80px rgba(28,15,76,0.16), 0 4px 20px rgba(28,15,76,0.08)",
-              border: "1px solid rgba(28,15,76,0.08)",
             }}
           >
             <video
@@ -129,15 +128,20 @@ export default function HowItWorksSection() {
                   src="/miniatura-vsl.png"
                   alt="Video Platita.pe"
                   fill
+                  sizes="(max-width: 768px) 100vw, 768px"
                   style={{ objectFit: "cover", objectPosition: "center" }}
                   quality={100}
                 />
-                {/* Solo el botón play centrado */}
-                <button className="play-btn relative z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28" style={{ marginLeft: "4px" }}>
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
+                {/* Botón play centrado, con anillos que invitan a hacer clic */}
+                <div className="relative z-10" style={{ width: "72px", height: "72px" }}>
+                  <span className="play-ring" />
+                  <span className="play-ring play-ring-delay" />
+                  <button className="play-btn relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28" style={{ marginLeft: "4px" }}>
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             )}
           </div>

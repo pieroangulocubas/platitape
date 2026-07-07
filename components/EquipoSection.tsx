@@ -1,7 +1,6 @@
 ﻿"use client";
 import Image from "next/image";
 import { useState } from "react";
-import { FORMSPREE_ENDPOINT } from "@/lib/config";
 
 const team = [
   {
@@ -37,10 +36,10 @@ function CaptadorForm() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch("/api/captador", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...form, _subject: `Captador de capital: ${form.nombre}` }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
       setStatus(res.ok ? "ok" : "error");
     } catch {
@@ -102,7 +101,7 @@ function CaptadorForm() {
           className="btn-gradient px-7 py-3 rounded-full text-sm font-bold"
           style={{ opacity: status === "sending" ? 0.7 : 1 }}
         >
-          {status === "sending" ? "Enviando…" : "Postular como captador →"}
+          <span>{status === "sending" ? "Enviando…" : "Postular como captador →"}</span>
         </button>
         {status === "error" && (
           <p className="text-sm" style={{ color: "#f87171" }}>
@@ -118,7 +117,10 @@ export default function EquipoSection() {
   return (
     <section
       className="relative py-28 px-4 overflow-hidden"
-      style={{ background: "#f5f0ff" }}
+      style={{
+        background:
+          "linear-gradient(180deg, #ffffff 0%, #f7f2ff 45%, #ffffff 100%)",
+      }}
     >
       {/* Glow decorativo suave */}
       <div
@@ -152,12 +154,8 @@ export default function EquipoSection() {
         {/* Header */}
         <div className="text-center mb-16">
           <span
-            className="text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full"
-            style={{
-              background: "rgba(28,15,76,0.07)",
-              border: "1px solid rgba(28,15,76,0.14)",
-              color: "#1c0f4c",
-            }}
+            className="text-xs font-bold tracking-widest uppercase"
+            style={{ color: "#1c0f4c" }}
           >
             Co-fundadores
           </span>

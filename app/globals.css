@@ -110,6 +110,33 @@ body {
   z-index: 1;
 }
 
+/* ── Footer links — hover echoes navbar active underline ── */
+.footer-link {
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #6cdcff, #bc45e9);
+  transition: width 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #1c0f4c;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
 .btn-outline {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -296,6 +323,40 @@ body {
   border-color: #6cdcff;
   transform: scale(1.1);
   box-shadow: 0 0 30px rgba(108, 220, 255, 0.4);
+  animation-play-state: paused;
+}
+
+@keyframes play-btn-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+.play-btn {
+  animation: play-btn-breathe 1.8s ease-in-out infinite;
+}
+
+@keyframes play-ring-ping {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.play-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  animation: play-ring-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+.play-ring-delay {
+  animation-delay: 1s;
+}
+
+/* ── VSL: invite glow around the video frame ────────── */
+@keyframes vsl-glow-pulse {
+  0%, 100% { box-shadow: 0 24px 80px rgba(28,15,76,0.16), 0 4px 20px rgba(28,15,76,0.08), 0 0 0 0 rgba(108,220,255,0.30); }
+  50%      { box-shadow: 0 24px 80px rgba(28,15,76,0.16), 0 4px 20px rgba(28,15,76,0.08), 0 0 0 12px rgba(108,220,255,0); }
+}
+.vsl-glow {
+  animation: vsl-glow-pulse 2.6s ease-in-out infinite;
 }
 
 /* ── WhatsApp floating button ───────────────────────── */
@@ -320,6 +381,25 @@ body {
 .wa-float:hover {
   transform: scale(1.12) translateY(-3px);
   box-shadow: 0 16px 40px rgba(37, 211, 102, 0.55);
+}
+
+/* ── Hero: scroll-to-video hint ─────────────────────── */
+@keyframes hero-scroll-hint {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50%      { transform: translateY(4px); opacity: 1; }
+}
+
+.hero-scroll-hint {
+  animation: hero-scroll-hint 1.6s ease-in-out infinite;
+}
+
+@media (max-width: 767px) {
+  .wa-float {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+    right: 16px;
+    width: 52px;
+    height: 52px;
+  }
 }
 
 .wa-pulse {

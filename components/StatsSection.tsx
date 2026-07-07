@@ -22,6 +22,11 @@ const IconShield = ({ c }: { c: string }) => (
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
   </svg>
 );
+const IconCheck = ({ c }: { c: string }) => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
 
 function useCountUp(end: number, duration: number, trigger: boolean) {
   const [value, setValue] = useState(0);
@@ -46,10 +51,34 @@ function useCountUp(end: number, duration: number, trigger: boolean) {
 }
 
 const stats = [
-  { raw: 16,  prefix: "",   suffix: "%", label: "Rentabilidad anual",  icon: <IconPercent c="#bc45e9" />, accent: "#bc45e9", delay: 0    },
-  { raw: 10,  prefix: "S/", suffix: "K", label: "Inversión mínima",    icon: <IconCoins   c="#6cdcff" />, accent: "#6cdcff", delay: 120  },
-  { raw: 500, prefix: "+",  suffix: "",  label: "En lista de espera",  icon: <IconUsers   c="#bc45e9" />, accent: "#bc45e9", delay: 240  },
-  { raw: 100, prefix: "",   suffix: "%", label: "Proceso 100% online", icon: <IconShield  c="#6cdcff" />, accent: "#6cdcff", delay: 360  },
+  {
+    raw: 16, prefix: "", suffix: "%", label: "Rentabilidad anual",
+    detail: "Rentabilidad objetivo anual",
+    icon: <IconPercent c="#ffffff" />,
+    gradient: "linear-gradient(135deg, #7fe3ff 0%, #4bc4ef 100%)",
+    delay: 0,
+  },
+  {
+    raw: 10, prefix: "S/", suffix: "K", label: "Inversión mínima",
+    detail: "Accede desde S/ 10,000",
+    icon: <IconCoins c="#ffffff" />,
+    gradient: "linear-gradient(135deg, #6cdcff 0%, #3fb3e0 100%)",
+    delay: 120,
+  },
+  {
+    raw: 500, prefix: "+", suffix: "", label: "En lista de espera",
+    detail: "Comunidad en crecimiento",
+    icon: <IconUsers c="#ffffff" />,
+    gradient: "linear-gradient(135deg, #cd6bf2 0%, #a233d4 100%)",
+    delay: 240,
+  },
+  {
+    raw: 100, prefix: "", suffix: "%", label: "Proceso online",
+    detail: "Registro y validación en minutos",
+    icon: <IconShield c="#ffffff" />,
+    gradient: "linear-gradient(135deg, #bc45e9 0%, #8b2fc9 100%)",
+    delay: 360,
+  },
 ];
 
 function StatCard({ stat, trigger }: { stat: typeof stats[0]; trigger: boolean }) {
@@ -64,27 +93,43 @@ function StatCard({ stat, trigger }: { stat: typeof stats[0]; trigger: boolean }
 
   return (
     <div
-      className="rounded-xl p-6 text-center group transition-all duration-300 hover:-translate-y-1 flex flex-col items-center gap-2"
+      className="rounded-2xl p-6 group transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center gap-3"
       style={{
-        background: "#ffffff",
-        border: "1px solid #d2dcea",
-        boxShadow: "0 1px 3px rgba(8,10,30,0.04), 0 4px 16px rgba(8,10,30,0.07)",
+        background: stat.gradient,
+        boxShadow: "0 4px 14px rgba(28,15,76,0.10), 0 12px 32px rgba(28,15,76,0.10)",
       }}
     >
       <div
-        className="w-9 h-9 rounded-lg flex items-center justify-center"
-        style={{ background: `${stat.accent}12`, border: `1px solid ${stat.accent}28` }}
+        className="w-12 h-12 rounded-full flex items-center justify-center"
+        style={{ background: "rgba(255,255,255,0.20)" }}
       >
         {stat.icon}
       </div>
-      <div
-        className="text-3xl md:text-4xl font-black tabular-nums"
-        style={{ color: stat.accent, fontVariantNumeric: "tabular-nums" }}
-      >
-        {stat.prefix}{count.toLocaleString()}{stat.suffix}
+
+      <div>
+        <div
+          className="text-3xl md:text-4xl font-black tabular-nums text-white leading-none whitespace-nowrap"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {stat.prefix}{count.toLocaleString()}{stat.suffix}
+        </div>
+        <div className="text-xs font-bold tracking-widest uppercase text-white leading-tight mt-1.5" style={{ opacity: 0.9 }}>
+          {stat.label}
+        </div>
       </div>
-      <div className="text-xs font-semibold tracking-widest uppercase" style={{ color: "rgba(8,11,30,0.42)" }}>
-        {stat.label}
+
+      <div className="h-px w-full" style={{ background: "rgba(255,255,255,0.35)" }} />
+
+      <div className="flex items-center justify-center gap-2">
+        <div
+          className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
+          style={{ background: "rgba(255,255,255,0.25)" }}
+        >
+          <IconCheck c="#ffffff" />
+        </div>
+        <p className="text-xs font-semibold leading-snug text-white" style={{ opacity: 0.92 }}>
+          {stat.detail}
+        </p>
       </div>
     </div>
   );

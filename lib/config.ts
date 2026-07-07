@@ -8,5 +8,3 @@ export const WA_CONTACT_MSG = encodeURIComponent(
   "Hola, me interesa saber más sobre Platita.pe y cómo puedo invertir en bienes raíces."
 );
 export const WA_CONTACT_URL = `${WA_BASE_URL}?text=${WA_CONTACT_MSG}`;
-
-export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xdavwjeq";

@@ -97,7 +97,7 @@ export default function TarjetasBanner() {
             href="#registro"
             className="btn-gradient px-7 py-3.5 rounded-full text-sm font-bold inline-flex items-center gap-2 mt-1"
           >
-            Quiero mi tarjeta
+            <span>Quiero mi tarjeta</span>
             <span>→</span>
           </a>
         </div>

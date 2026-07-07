@@ -1,12 +1,12 @@
 ﻿"use client";
 import { useState } from "react";
-import Image from "next/image";
 import ToastNotifications from "./ToastNotifications";
 import { WA_CHANNEL_URL } from "@/lib/config";
 
-const ANNUAL_RATE = 0.16;
-const MIN_AMOUNT  = 10000;
-const MAX_AMOUNT  = 1000000;
+const ANNUAL_RATE  = 0.16;
+const MONTHLY_RATE = 0.013;
+const MIN_AMOUNT   = 10000;
+const MAX_AMOUNT   = 1000000;
 
 const PERIODS = [
   { months: 3,  label: "3m",  available: false },
@@ -26,28 +26,59 @@ export default function HeroSection() {
   const [rawInput, setRawInput]      = useState("10000");
   const [months, setMonths]          = useState(12);
 
-  const earnings = amount * ANNUAL_RATE * (months / 12);
-  const total    = amount + earnings;
-  const roiPct   = ((earnings / amount) * 100).toFixed(1);
+  const earnings        = amount * ANNUAL_RATE * (months / 12);
+  const total           = amount + earnings;
+  const roiPct          = ((earnings / amount) * 100).toFixed(1);
+  const monthlyEarnings = amount * MONTHLY_RATE;
 
   return (
     <>
     <section
-      className="relative flex flex-col justify-center overflow-hidden"
-      style={{ height: "calc(100vh - 64px)", marginTop: "64px" }}
+      className="relative flex flex-col justify-center overflow-hidden md:h-[calc(100vh-64px)]"
+      style={{ marginTop: "64px" }}
     >
-      {/* ── Background image — oculta en móvil ── */}
-      <div className="absolute inset-0 hidden md:block">
-        <Image
-          src="/hero-bg.png"
-          alt=""
-          fill
-          priority
-          style={{ objectFit: "cover", objectPosition: "center" }}
+      {/* ── Background ── */}
+
+      {/* Llama background image — desktop/tablet only */}
+      <div
+        className="absolute inset-0 pointer-events-none hidden md:block"
+        style={{
+          backgroundImage: "url('/llama-bg.jpeg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      {/* Mobile background — white with diffused brand-color blobs, no llama */}
+      <div className="absolute inset-0 pointer-events-none md:hidden" style={{ background: "#ffffff" }}>
+        <div
+          className="absolute"
+          style={{
+            top: "-10%", right: "-15%",
+            width: "70%", height: "40%",
+            background: "radial-gradient(circle, rgba(188,69,233,0.22) 0%, transparent 70%)",
+            filter: "blur(28px)",
+          }}
+        />
+        <div
+          className="absolute"
+          style={{
+            top: "20%", left: "-20%",
+            width: "60%", height: "35%",
+            background: "radial-gradient(circle, rgba(108,220,255,0.20) 0%, transparent 70%)",
+            filter: "blur(28px)",
+          }}
+        />
+        <div
+          className="absolute"
+          style={{
+            bottom: "-15%", right: "-10%",
+            width: "75%", height: "45%",
+            background: "radial-gradient(circle, rgba(28,15,76,0.10) 0%, transparent 70%)",
+            filter: "blur(32px)",
+          }}
         />
       </div>
-
-      {/* ── Background ── */}
 
       {/* Dot grid — full width, subtle */}
       <div
@@ -98,15 +129,16 @@ export default function HeroSection() {
         <div className="flex flex-col md:flex-row items-stretch gap-6 md:gap-0">
 
           {/* LEFT — text */}
-          <div className="flex-1 flex flex-col justify-center gap-5 md:pr-10 pb-12 md:pb-16">
+          <div className="flex-1 flex flex-col justify-center gap-4 md:gap-5 md:pr-10 pb-6 md:pb-16">
 
             {/* Badge */}
             <div
-              className="flex items-center gap-2 w-fit px-4 py-1.5 rounded-md text-xs font-bold tracking-widest uppercase"
+              className="flex items-center gap-2 w-fit px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase"
               style={{
-                background: "rgba(12,18,55,0.05)",
-                border: "1px solid rgba(12,18,55,0.13)",
+                background: "linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(90deg, #6cdcff, #bc45e9) border-box",
+                border: "1.5px solid transparent",
                 color: "#1c0f4c",
+                boxShadow: "0 4px 16px rgba(188,69,233,0.14)",
               }}
             >
               <span style={{
@@ -119,16 +151,16 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1 className="text-5xl md:text-6xl lg:text-[4.25rem] font-black leading-[1.02] tracking-tight" style={{ color: "#1c0f4c" }}>
-              Invierte y gana
+              Haz que tu platita
               <br />
-              <span className="gradient-text-cyan">hasta 16%</span>
+              <span className="gradient-text-cyan">trabaje hasta 16%</span>
               <br />
-              <span style={{ color: "rgba(8,11,30,0.55)", fontWeight: 800 }}>de retorno anual</span>
+              <span style={{ color: "rgba(8,11,30,0.80)", fontWeight: 800 }}>de retorno anual</span>
             </h1>
 
             <p className="text-base md:text-lg leading-relaxed max-w-md" style={{ color: "rgba(8,11,30,0.54)" }}>
-              Invierte desde <strong style={{ color: "#1c0f4c" }}>S/10,000</strong> en proyectos
-              inmobiliarios del Perú verificados. 100% online, sin trámites.
+              Desde <strong style={{ color: "#1c0f4c" }}>S/10,000</strong>, invierte en proyectos
+              inmobiliarios verificados con respaldo notarial. 100% online, sin trámites ni letras chicas.
             </p>
 
             {/* CTAs */}
@@ -137,16 +169,15 @@ export default function HeroSection() {
                 href="#registro"
                 className="btn-gradient px-8 py-3.5 rounded-lg text-sm font-bold tracking-wide"
               >
-                Unirse a la lista de espera →
+                <span>Unirse a la lista de espera →</span>
               </a>
               <button
                 onClick={() => setShowSim((v) => !v)}
-                className="px-8 py-3.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                style={{
-                  border: "1.5px solid rgba(12,18,55,0.16)",
-                  color: "#1c0f4c",
-                  background: "rgba(12,18,55,0.03)",
-                }}
+                className={`px-8 py-3.5 rounded-lg text-sm font-semibold flex items-center gap-2 border-[1.5px] bg-transparent transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(188,69,233,0.40)] hover:text-[#bc45e9] ${
+                  showSim
+                    ? "border-[rgba(188,69,233,0.40)] text-[#bc45e9]"
+                    : "border-[rgba(12,18,55,0.18)] text-[#1c0f4c]"
+                }`}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
@@ -154,6 +185,30 @@ export default function HeroSection() {
                 Simula tu inversión
               </button>
             </div>
+
+            {/* Video hint — apunta al VSL en ¿Cómo funciona? */}
+            <a
+              href="#como-funciona"
+              className="group inline-flex items-center gap-2 w-fit text-sm font-semibold transition-colors duration-200 hover:text-[#bc45e9]"
+              style={{ color: "rgba(8,11,30,0.55)" }}
+            >
+              <span
+                className="flex items-center justify-center w-7 h-7 rounded-full shrink-0 transition-transform duration-200 group-hover:scale-110"
+                style={{ background: "rgba(188,69,233,0.10)", border: "1px solid rgba(188,69,233,0.25)" }}
+              >
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="#bc45e9" style={{ marginLeft: "1px" }}>
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              Mira el video y descubre cómo funciona
+              <svg
+                className="hero-scroll-hint"
+                width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </a>
 
             {/* Social proof */}
             <div className="flex items-center gap-2.5 text-xs" style={{ color: "rgba(8,11,30,0.40)" }}>
@@ -180,11 +235,12 @@ export default function HeroSection() {
               ].map((b) => (
                 <div
                   key={b.text}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold"
                   style={{
-                    background: "rgba(12,18,55,0.04)",
-                    border: "1px solid rgba(12,18,55,0.10)",
-                    color: "rgba(8,11,30,0.55)",
+                    background: "linear-gradient(#ffffff, #ffffff) padding-box, linear-gradient(90deg, rgba(108,220,255,0.5), rgba(188,69,233,0.5)) border-box",
+                    border: "1px solid transparent",
+                    color: "#1c0f4c",
+                    boxShadow: "0 2px 10px rgba(28,15,76,0.06)",
                   }}
                 >
                   {b.svg}
@@ -196,6 +252,15 @@ export default function HeroSection() {
 
         </div>
       </div>
+
+      {/* Transición de color hacia la siguiente sección — sin forma, solo degradado (solo desktop, donde el fondo llama contrasta con la sección blanca) */}
+      <div
+        className="absolute bottom-0 left-0 w-full pointer-events-none hidden md:block"
+        style={{
+          height: "140px",
+          background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.45) 58%, rgba(255,255,255,0.72) 74%, rgba(255,255,255,0.92) 88%, #ffffff 100%)",
+        }}
+      />
     </section>
 
     {/* ── Simulador panel — light theme, desliza desde la derecha ── */}
@@ -226,10 +291,9 @@ export default function HeroSection() {
         </div>
         <button
           onClick={() => setShowSim(false)}
-          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all hover:scale-110"
-          style={{ background: "rgba(12,18,55,0.06)", border: "1px solid rgba(12,18,55,0.10)" }}
+          className="group w-9 h-9 flex items-center justify-center bg-transparent transition-transform duration-200 hover:scale-110"
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2.5" strokeLinecap="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c0f4c" strokeWidth="2.5" strokeLinecap="round" className="transition-colors duration-200 group-hover:stroke-[#bc45e9]">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
@@ -332,6 +396,13 @@ export default function HeroSection() {
                 <span className="text-xs" style={{ color: "rgba(188,69,233,0.60)" }}>{roiPct}% en {months} meses</span>
               </div>
             </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-semibold" style={{ color: "#bc45e9" }}>Ganancia mensual (retiro)</span>
+              <div className="text-right">
+                <span key={`month-${amount}`} className="text-xl font-black sim-result-value block" style={{ color: "#bc45e9" }}>+S/ {fmt(monthlyEarnings)}</span>
+                <span className="text-xs" style={{ color: "rgba(188,69,233,0.60)" }}>1.3% mensual sobre tu inversión</span>
+              </div>
+            </div>
             <div className="h-px" style={{ background: "#e8eef6" }} />
             <div className="flex justify-between items-center">
               <span className="text-sm font-bold" style={{ color: "#1c0f4c" }}>Total al final</span>
@@ -352,7 +423,7 @@ export default function HeroSection() {
 
         <a href="#registro" onClick={() => setShowSim(false)}
           className="btn-gradient text-center py-3.5 rounded-xl font-bold text-base">
-          Quiero invertir ahora
+          <span>Quiero invertir ahora</span>
         </a>
 
         {/* WA */}
